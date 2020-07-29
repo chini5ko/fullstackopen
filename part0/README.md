@@ -16,7 +16,8 @@ In chapter Loading a page containing JavaScript - revised the chain of events ca
 Create a diagram depicting the situation where the user goes to the single page app version of the notes app at https://fullstack-exampleapp.herokuapp.com/spa.
 
 ## 0.6  New note 
+Create a diagram depicting the situation where user creates a new note using the single page version of the app.
+
 ![0.6](0.6.png)
 
-Create a diagram depicting the situation where user creates a new note using the single page version of the app.
 
