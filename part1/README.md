@@ -254,7 +254,7 @@ const App = () => {
 ReactDOM.render(<App />, document.getElementById('root'))
 ```
 
-# 1.6 unicafe
+# 1.6 unicafe step 1
 Like most companies, Unicafe collects feedback from its customers. Your task is to implement a web application for collecting customer feedback. There are only three options for feedback: good, neutral, and bad.
 
 ```js
@@ -289,7 +289,7 @@ ReactDOM.render(<App />,
 )
 ```
 
-# 1.7 unicafe
+# 1.7 unicafe step 2
 Expand your application so that it shows more statistics about the gathered feedback: the total number of collected feedback, the average score (good: 1, neutral: 0, bad: -1) and the percentage of positive feedback.
 
 ```js
@@ -373,7 +373,7 @@ ReactDOM.render(<App />,
 )
 ```
 
-# 1.9 unicafe step 3
+# 1.9 unicafe step 4
 Change your application to display statistics only once feedback has been gathered.
 
 ```js
@@ -424,7 +424,7 @@ ReactDOM.render(<App />,
 ```
 
 
-# 1.10: unicafe step5
+# 1.10: unicafe step 5
 Let's continue refactoring the application. Extract the following two components:
 
 Button for defining the buttons used for submitting feedback
@@ -485,7 +485,7 @@ ReactDOM.render(<App />,
   document.getElementById('root')
 )
 ```
-# 1.11*: unicafe step6
+# 1.11*: unicafe step 6
 Display the statistics in an HTML table, so that your application:
 ```js
 import React, { useState } from 'react'
@@ -552,7 +552,7 @@ ReactDOM.render(<App />,
 )
 ```
 
-# 1.12*: anecdotes step1
+# 1.12*: anecdotes step 1
 Display the statistics in an HTML table, so that your application
 ```js
 
@@ -589,7 +589,7 @@ ReactDOM.render(
 
 ```
 
-# 1.13*: anecdotes step2
+# 1.13*: anecdotes step 2
 Expand your application so that you can vote for the displayed anecdote.
 ```js
 import React, { useState } from 'react'
@@ -638,7 +638,7 @@ ReactDOM.render(
 )
 
 ```
-# 1.14*: anecdotes step2
+# 1.14*: anecdotes step 3
 Now implement the final version of the application that displays the anecdote with the largest number of votes:
 
 ```js
