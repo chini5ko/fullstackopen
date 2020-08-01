@@ -1,3 +1,225 @@
+# 2.9*: The Phonebook Step4
+Implement a search field that can be used to filter the list of people by name:
+
+
+```js
+import React, { useState } from 'react'
+
+const Numbers = ({persons}) =>{
+
+  return(
+    <div>
+      <h2>Numbers</h2>
+      {persons.map((person,i) => <p key={i}>{person.name} {person.number}</p>)}
+    </div>
+  )
+}
+
+const App = () => {
+  const [persons, setPersons] = useState([
+    { name: 'Arto Hellas', number: '040-123456' },
+    { name: 'Ada Lovelace', number: '39-44-5323523' },
+    { name: 'Dan Abramov', number: '12-43-234345' },
+    { name: 'Mary Poppendieck', number: '39-23-6423122' }
+  ])
+
+  const [ newName, setNewName ] = useState('')
+  const [ newNumber, setNewNumber ] = useState('')
+  const [ filterText, setFilterText ] = useState('')
+  const [ filterPersons, setFilterPersons] = useState([])
+
+  const addPerson = (event) =>{
+    event.preventDefault();
+    let isNotANewName = persons.some((person) => person['name'] === newName);
+    let isNotANewNumer = persons.some((person) => person['number'] === newNumber);
+
+    // console.log("isNewPerson" , isNewPerson)
+    if(!isNotANewName && !isNotANewNumer){
+      const personObj = {name: newName , number: newNumber};
+      setPersons(persons.concat(personObj));
+    
+    }
+    else{
+      alert(`${newName} or ${newNumber} is already added to phonebook` );
+    }
+    setNewName('')
+    setNewNumber('')
+  }
+
+  const handleFilter = (event) => {
+    setFilterText(event.target.value)
+    setFilterPersons( persons.filter( (person) => person.name.toLowerCase().includes(event.target.value.toLowerCase())))
+  }
+
+  return (
+    <div>
+      <h2>Phonebook</h2>
+      <div> filer shown with <input value={filterText} onChange={handleFilter}></input></div>
+      <h2>add a new </h2>
+      <form onSubmit={addPerson}>
+        <div> name: <input value={newName} onChange={(event) => setNewName(event.target.value)} /> </div>
+        <div>number: <input value={newNumber} onChange={(event) => setNewNumber(event.target.value)}  /></div>
+        <div>
+          <button type="submit">add</button>
+        </div>
+      </form>
+      {console.log(filterText.length)}
+
+    {filterText.length>0?
+      <Numbers persons={filterPersons}></Numbers>:
+      <Numbers  persons={persons}></Numbers>}
+   
+    </div>
+  )
+}
+
+export default App
+```
+
+# 2.8: The Phonebook Step3
+Expand your application by allowing users to add phone numbers to the phone book. You will need to add a second input element to the form (along with its own event handler):
+
+```js
+import React, { useState } from 'react'
+
+const App = () => {
+  const [ persons, setPersons ] = useState([
+    { name: 'Arto Hellas' , number:'929-219-2121' }
+  ]) 
+  const [ newName, setNewName ] = useState('')
+  const [ newNumber, setNewNumber ] = useState('')
+
+
+  const addPerson = (event) =>{
+    event.preventDefault();
+    let isNotANewName = persons.some((person) => person['name'] === newName);
+    let isNotANewNumer = persons.some((person) => person['number'] === newNumber);
+
+    // console.log("isNewPerson" , isNewPerson)
+    if(!isNotANewName && !isNotANewNumer){
+      const personObj = {name: newName , number: newNumber};
+      setPersons(persons.concat(personObj));
+    
+    }
+    else{
+      alert(`${newName} or ${newNumber} is already added to phonebook` );
+    }
+    setNewName('')
+    setNewNumber('')
+  }
+
+  return (
+    <div>
+      <h2>Phonebook</h2>
+      <form onSubmit={addPerson}>
+        <div> name: <input value={newName} onChange={(event) => setNewName(event.target.value)} /> </div>
+        <div>number: <input value={newNumber} onChange={(event) => setNewNumber(event.target.value)}  /></div>
+        <div>
+          <button type="submit">add</button>
+        </div>
+      </form>
+
+      <h2>Numbers</h2>
+        {persons.map((person,i) => <p key={i}>{person.name} {person.number}</p>)}
+    </div>
+  )
+}
+
+export default App
+```
+
+
+# 2.7: The Phonebook Step2
+
+```js
+ const addPerson = (event) =>{
+    event.preventDefault();
+    console.log(persons, "and new name", newName)
+  
+    const isNewPerson = persons.some((person) => person['name'] !== newName);
+
+    console.log("isNewPerson" , isNewPerson)
+    if(isNewPerson){
+      const personObj = {name: newName};
+      setPersons(persons.concat(personObj));
+    }
+    else{
+      alert(`${newName} is already added to phonebook` );
+    }
+    setNewName('')
+  }
+```
+
+# 2.6: The Phonebook Step1
+
+```js
+import React, { useState } from 'react'
+
+const App = () => {
+  const [ persons, setPersons ] = useState([
+    { name: 'Arto Hellas' }
+  ]) 
+  const [ newName, setNewName ] = useState('')
+
+  const addPerson = (event) =>{
+    event.preventDefault();
+    const personObj = {name: newName};
+    setNewName('')
+    setPersons(persons.concat(personObj));
+  }
+
+  return (
+    <div>
+      <h2>Phonebook</h2>
+      <form onSubmit={addPerson}>
+        <div>
+          name: <input value={newName} onChange={(event) => setNewName(event.target.value)} />
+        </div>
+        <div>
+          <button type="submit">add</button>
+        </div>
+      </form>
+      {/* <div>debug: {newName}</div> */}
+
+      <h2>Numbers</h2>
+        {persons.map((persona,i) => <p key={i}>{persona.name}</p>)}
+    </div>
+  )
+}
+
+export default App
+```
+Let's create a simple phonebook. In this part we will only be adding names to the phonebook.
+Let us start with implementing the addition of a person to phonebook.
+```js
+const App = () => {
+  const [ persons, setPersons ] = useState([
+    { name: 'Arto Hellas' }
+  ]) 
+  const [ newName, setNewName ] = useState('')
+
+  return (
+    <div>
+      <h2>Phonebook</h2>
+      <div>debug: {newName}</div>
+
+      <form>
+        <div>
+          name: <input />
+        </div>
+        <div>
+          <button type="submit">add</button>
+        </div>
+      </form>
+      <h2>Numbers</h2>
+      ...
+    </div>
+  )
+}
+
+export default App
+```
+
 # 2.5: separate module
 Declare the Course component as a separate module, which is imported by the App component. You can include all subcomponents of the course into the same module.
 
