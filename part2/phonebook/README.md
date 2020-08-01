@@ -1,3 +1,101 @@
+# 2.10: The Phonebook Step5
+it is sufficient to extract three components from the application. Good candidates for separate components are, for example, the search filter, the form for adding new people into the phonebook, a component that renders all people from the phonebook, and a component that renders a single person's details.
+
+```js
+import React, { useState } from 'react'
+
+const Persons = ({persons}) =>{
+
+  return(
+    <div>
+      {persons.map((person,i) => <p key={i}>{person.name} {person.number}</p>)}
+    </div>
+  )
+}
+
+const Filter = (props) =>{
+
+  return(
+    <div>
+      <div> filer shown with <input value={props.filterText} onChange={props.handleFilter}></input></div>
+    </div>
+  )
+}
+
+const PersonsForm = (props) =>{
+
+  return(
+   <form onSubmit={props.addPerson}>
+        <div> name: <input value={props.newName} onChange={(event) => props.setNewName(event.target.value)} /> </div>
+        <div>number: <input value={props.newNumber} onChange={(event) => props.setNewNumber(event.target.value)}  /></div>
+        <div>
+          <button type="submit">add</button>
+        </div>
+  </form>
+  )
+}
+
+
+
+const App = () => {
+  const [persons, setPersons] = useState([
+    { name: 'Arto Hellas', number: '040-123456' },
+    { name: 'Ada Lovelace', number: '39-44-5323523' },
+    { name: 'Dan Abramov', number: '12-43-234345' },
+    { name: 'Mary Poppendieck', number: '39-23-6423122' }
+  ])
+
+  const [ newName, setNewName ] = useState('')
+  const [ newNumber, setNewNumber ] = useState('')
+  const [ filterText, setFilterText ] = useState('')
+  const [ filterPersons, setFilterPersons] = useState([])
+
+  const addPerson = (event) =>{
+    event.preventDefault();
+    let isNotANewName = persons.some((person) => person['name'] === newName);
+    let isNotANewNumer = persons.some((person) => person['number'] === newNumber);
+
+    // console.log("isNewPerson" , isNewPerson)
+    if(!isNotANewName && !isNotANewNumer){
+      const personObj = {name: newName , number: newNumber};
+      setPersons(persons.concat(personObj));
+    
+    }
+    else{
+      alert(`${newName} or ${newNumber} is already added to phonebook` );
+    }
+    setNewName('')
+    setNewNumber('')
+  }
+
+  const handleFilter = (event) => {
+    setFilterText(event.target.value)
+    setFilterPersons( persons.filter( (person) => person.name.toLowerCase().includes(event.target.value.toLowerCase())))
+  }
+
+
+
+
+  return (
+    <div>
+      <h2>Phonebook</h2>
+
+      <Filter filterText={filterText} handleFilter={handleFilter}></Filter>
+
+      <h2>Add a new </h2>
+
+    <PersonsForm addPerson={addPerson} setNewName={setNewName}  setNewNumber={setNewNumber}>  newNumber={newNumber} newName={newName}</PersonsForm>
+
+      <h2>Numbers</h2>
+    {filterText.length>0? <Persons persons={filterPersons}></Persons>: <Persons  persons={persons}></Persons>}
+   
+    </div>
+  )
+}
+
+export default App
+```
+
 # 2.9*: The Phonebook Step4
 Implement a search field that can be used to filter the list of people by name:
 
