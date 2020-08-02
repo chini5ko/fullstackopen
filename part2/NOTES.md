@@ -1,3 +1,127 @@
+# 2C Getting data from server
+```js
+import React, {useState, useEffect} from 'react'
+import Note from './components/Note'
+import axios from 'axios'
+
+
+const App = (props) => {
+  const [notes, setNotes] = useState([])
+  const [newNote, setNewNote] = useState('a new note...')
+  const [showAll, setShowAll] = useState(true)
+
+  useEffect(() => {
+    console.log('effect')
+    axios
+      .get('http://localhost:3001/notes')
+      .then(response => {
+        console.log('promise fulfilled')
+        setNotes(response.data)
+      })
+  }, [])
+  console.log('render', notes.length, 'notes')
+
+  const noteToShow = showAll ? notes : notes.filter(note => note.important === true)
+
+  //In order to enable editing of the input element, 
+  //we have to register an event handler that synchronizes
+  // the changes made to the input with the component's state:
+
+  const handleNoteChange = (event) => {
+    console.log(event.target.value)
+    setNewNote(event.target.value)
+  }
+
+  const addNote = (event) =>{
+    event.preventDefault()
+
+    const noteObject = {
+      content: newNote,
+      date: new Date().toISOString(),
+      important: Math.random() < 0.5,
+      id: notes.length + 1,
+    }
+
+    setNotes(notes.concat(noteObject))
+    setNewNote('')
+  }
+  return (
+    <div>
+      <h1>Notes</h1>
+      <div>
+        <button onClick={() => setShowAll(!showAll)}>
+          show {showAll? 'important': 'all'}
+        </button>
+      </div>
+
+
+      <ul>
+        {noteToShow.map((note) => 
+          <Note key={note.id} note={note} />
+        )}
+
+        <form onSubmit={addNote}>
+          <input value={newNote} onChange={handleNoteChange}/>
+          <button type="submit" >save</button>
+        </form>
+      </ul>
+    </div>
+  )
+}
+
+export default App
+```
+
+# useEffect
+
+```js
+useEffect(() => {
+  console.log('effect')
+  axios
+    .get('http://localhost:3001/notes')
+    .then(response => {
+      console.log('promise fulfilled')
+      setNotes(response.data)
+    })
+}, [])
+```
+
+
+```js
+useEffect(() => {
+  console.log('effect')
+
+  const eventHandler = response => {
+    console.log('promise fulfilled')
+    setNotes(response.data)
+  }
+
+  const promise = axios.get('http://localhost:3001/notes')
+  promise.then(eventHandler)
+}, [])
+```
+A reference to an event handler function is assigned to the variable eventHandler. The promise returned by the get method of Axios is stored in the variable promise. The registration of the callback happens by giving the eventHandler variable, referring to the event-handler function, as a parameter to the then method of the promise. It isn't usually necessary to assign functions and promises to variables, and a more compact way of representing things, as seen further above, is sufficient.
+
+
+# axios
+
+##### More redeable
+```js
+axios
+  .get('http://localhost:3001/notes')
+  .then(response => {
+    const notes = response.data
+    console.log(notes)
+  })
+```
+
+```js
+axios.get('http://localhost:3001/notes').then(response => {
+  const notes = response.data
+  console.log(notes)
+})
+```
+
 # 2B  Forms
 ```js
 import React, {useState} from 'react'
