@@ -1,8 +1,37 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios'
 
-const DisplayCountry = ({country}) => {
+const DisplayWeather = ({locationName}) => {
 
+  const [weather, setWeather] = useState('')
+
+  useEffect(() => {
+    // console.log('effect')
+    let url = `http://api.weatherstack.com/current?access_key=${process.env.REACT_APP_API_KEY}&query=${locationName}`
+    console.log('url', url)
+    axios
+      .get(url)
+      .then(response => {
+        // setCountries(response.data)
+        console.log("weather", response.data)
+        setWeather(response.data)
+      })
+  }, [])
+
+  if(weather === ''){
+    return null;
+  }
+
+  return(
+    <div>
+      <p>Temperature: { ' '+ weather.current.temperature + ' '}Celcius</p>
+         <img alt="" height={100} src={weather.current.weather_icons[0]}></img>
+         <p>Wind: { weather.current.wind_speed +' '} direction { ' '+weather.current.wind_dir} </p>
+    </div>
+  )
+}
+
+const DisplayCountry = ({country}) => {
   return(
     <div>
       <h1>{country.name}</h1>
@@ -13,6 +42,8 @@ const DisplayCountry = ({country}) => {
       {country.languages.map( (language,i) => <li key={i}> {language.name}</li>)}
       </ul>
       <img alt="" height={ 100} src={country.flag}></img>
+      <h3>Weather in {country.capital} </h3>
+      <DisplayWeather locationName={country.capital}/>
     </div>
   )
 }
@@ -49,6 +80,8 @@ const App = () =>{
   const [countries, setCountries] = useState([])
   const [userInput, setUserInput] = useState('')
   const [showCountry, setShowCountry] = useState([])
+  // const [showWeather, setshowWeather] = useState([])
+
 
   // hook, retrieve data from country's data api 
   useEffect(() => {
@@ -85,7 +118,6 @@ const App = () =>{
       {/* <p>Match: {userInput}</p> */}
       <br></br>
       <Display showCountry={showCountry} handleShowCountryButton={handleShowCountryButton} />
-
     </div>
   )
 }
