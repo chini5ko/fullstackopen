@@ -61,15 +61,25 @@ const App = () => {
 
     // console.log("isNewPerson" , isNewPerson)
     if(!isNotANewName && !isNotANewNumer){
+
       const personObj = {name: newName , number: newNumber};
-      setPersons(persons.concat(personObj));
-    
+
+        axios
+          .post('http://localhost:3001/persons', personObj)
+          .then(response => {
+            setPersons(persons.concat(response.data) )
+            setNewName('')
+            setNewNumber('')
+          })
+  
+      // setPersons(persons.concat(personObj));
     }
     else{
-      alert(`${newName} or ${newNumber} is already added to phonebook` );
+      alert(`${newName} is already added to phonebook` );
+      setNewName('')
+      setNewNumber('')
     }
-    setNewName('')
-    setNewNumber('')
+   
   }
 
   const handleFilter = (event) => {

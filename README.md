@@ -82,7 +82,16 @@ const addNote = (event) => {
 }
 ```
 
+##### Object Spread
+In practice { ...note } creates a new object with copies of all the properties from the note object. When we add properties inside the curly braces after the spreaded object, e.g. { ...note, important: true }, then the value of the important property of the new object will be true. In our example the important property gets the negation of its previous value in the original object.
+```js
+const changedNote = { ...note, important: !note.important }
+```
+
 # promise 
+[js.info](https://javascript.info/promise-chaining)
+[uDontknwJS](https://github.com/getify/You-Dont-Know-JS/blob/1st-ed/async%20%26%20performance/ch3.md)
+
 A Promise is an object representing the eventual completion or failure of an asynchronous operation.
 
 ## Effect Hook
@@ -114,3 +123,35 @@ useEffect(hook, [])
 - The promise is fulfilled: It means that the operation has completed and the final value is available, which generally is a successful operation. This state is sometimes also called resolved.
 
 - The promise is rejected: It means that an error prevented the final value from being determined, which generally represents a failed operation.
+
+```js
+axios
+  .get('http://example.com/probably_will_fail')
+  .then(response => {
+    console.log('success!')
+  })
+  .catch(error => {
+    console.log('fail')
+  })
+  ```
+
+# REST
+
+
+# ES6
+
+### object declaration
+```js
+const name = 'Leevi'
+const age = 0
+
+//new
+const person = { name, age }
+
+//old
+const person = {
+  name: name,
+  age: age
+}
+
+```
