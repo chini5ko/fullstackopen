@@ -1,3 +1,40 @@
+# 
+Let's return to our phonebook application.
+
+Currently the numbers that are added to the phonebook are not saved to a backend server. Fix this situation.
+
+```js
+
+  const addPerson = (event) =>{
+    event.preventDefault();
+    let isNotANewName = persons.some((person) => person['name'] === newName);
+    let isNotANewNumer = persons.some((person) => person['number'] === newNumber);
+
+    // console.log("isNewPerson" , isNewPerson)
+    if(!isNotANewName && !isNotANewNumer){
+
+      const personObj = {name: newName , number: newNumber};
+
+        axios
+          .post('http://localhost:3001/persons', personObj)
+          .then(response => {
+            setPersons(persons.concat(response.data) )
+            setNewName('')
+            setNewNumber('')
+          })
+  
+      // setPersons(persons.concat(personObj));
+    }
+    else{
+      alert(`${newName} is already added to phonebook` );
+      setNewName('')
+      setNewNumber('')
+    }
+   
+  }
+
+```
+
 
 # 2.14*: Data for countries, step3
 Add to the view showing the data of a single country, the weather report for the capital of that country. There are dozens of providers for weather data. I used https://weatherstack.com/.
