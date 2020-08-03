@@ -1,3 +1,219 @@
+# 2.19: Phonebook step11 & 2.20*: Phonebook step12
+
+Use the improved error message example from part 2 as a guide to show a notification that lasts for a few seconds after a successful operation is executed (a person is added or a number is changed):
+
+Open your application in two browsers. If you delete a person in browser 1 a short while before attempting to change the person's phone number in browser 2, you will get the following error message:
+
+```css
+// index.css
+h1 {
+  color: green;
+}
+
+.error {
+  color: red;
+  background: lightgrey;
+  font-size: 20px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.note {
+  color: grey;
+  padding-top: 5px;
+  font-size: 15px;
+}
+
+```
+
+```js
+//app.js
+
+import React, { useState, useEffect } from 'react'
+import personeService from './services/persons'
+import './index.css'
+
+
+const Notification = ({ message, type }) => {
+  if (message === null) {
+    return null
+  }
+
+  if(type === 'sucess'){
+    return (
+      <div className="sucess">
+        {message}
+      </div>
+    )
+  }
+
+  if(type === 'error'){
+    return (
+      <div className="error">
+        {message}
+      </div>
+    )
+  }
+ 
+}
+
+const Persons = ({persons, deletePerson}) =>{
+  return(
+    <div>
+      {persons.map((person) => <p key={person.id}>{person.name} {person.number} <button onClick={() => deletePerson(person)}>delete</button></p>)}
+    </div>
+  )
+}
+
+const Filter = (props) =>{
+
+  return(
+    <div>
+      <div> filer shown with <input value={props.filterText} onChange={props.handleFilter}></input></div>
+    </div>
+  )
+}
+
+const PersonsForm = (props) =>{
+
+  return(
+   <form onSubmit={props.addPerson}>
+        <div> name: <input value={props.newName} onChange={(event) => props.setNewName(event.target.value)} /> </div>
+        <div>number: <input value={props.newNumber} onChange={(event) => props.setNewNumber(event.target.value)}  /></div>
+        <div>
+          <button type="submit">add</button>
+        </div>
+  </form>
+  )
+}
+
+
+const App = () => {
+  const [persons, setPersons] = useState([])
+
+  const [ newName, setNewName ] = useState('')
+  const [ newNumber, setNewNumber ] = useState('')
+  const [ filterText, setFilterText ] = useState('')
+  const [ filterPersons, setFilterPersons] = useState([])
+  const [notificationMessage, setNotificationMessage] = useState(null)
+  // const [errorMessage, setErrorMessage] = useState('some error happened...')
+  const [notificationType, setNotificationType] = useState('sucess')
+
+
+  useEffect(() => {
+    console.log('effect')
+    personeService
+      .getAll()
+      .then(initialPersons => {
+        setPersons(initialPersons)
+      })
+  }, [])
+
+  const addPerson = (event) =>{
+    event.preventDefault();
+    let isNotANewName = persons.some((person) => person['name'] === newName);
+    let isNotANewNumer = persons.some((person) => person['number'] === newNumber);
+
+    // create a new person
+    if(!isNotANewName && !isNotANewNumer){
+
+      const personObj = {name: newName , number: newNumber};
+
+        personeService
+          .create(personObj)
+          .then(personObject => {
+            setPersons(persons.concat(personObject))
+
+            setNotificationMessage(`Added ${personObject.name}`)
+            setNotificationType('sucess');
+
+            setTimeout(() => {
+              setNotificationMessage(null)
+            }, 2000);
+
+            setNewName('')
+            setNewNumber('')
+          })
+  
+      // setPersons(persons.concat(personObj));
+    }
+    else if(!isNotANewNumer){
+      if(window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)){
+
+        // find id 
+        const foundPerson = persons.find( person => person.name === newName);
+        const changedPerson = {... foundPerson, number: newNumber}
+
+        //update
+        personeService
+          .update(foundPerson.id, changedPerson)
+          .then(returnedPerson => {
+            setPersons(persons.map( person => person.id !== foundPerson.id ? person: returnedPerson ))
+          })
+          .catch( error =>{
+            setNotificationType('error');
+            setNotificationMessage(`Information of ${newName} has already been removed from serer`)
+
+            setTimeout(() => {
+              setNotificationMessage(null)
+            }, 2000);
+
+          })
+      }
+    }
+
+    else{
+      alert(`${newName} is already added to phonebook` );
+      setNewName('')
+      setNewNumber('')
+    }
+   
+  }
+
+  const handleFilter = (event) => {
+    setFilterText(event.target.value)
+    setFilterPersons( persons.filter( (person) => person.name.toLowerCase().includes(event.target.value.toLowerCase())))
+  }
+
+  const deletePerson = (personToBeDeleted) => {
+
+    if(window.confirm(`Delete ${personToBeDeleted.name}`)){
+      personeService
+      .deleteObjectById(personToBeDeleted.id)
+      .then(
+        setPersons(persons.filter((person) => person.id !== personToBeDeleted.id))
+      )
+      .then(
+        setFilterText('')
+      )
+    }
+  }
+
+  return (
+    <div>
+      <h2>Phonebook</h2>
+      <Notification message={notificationMessage} type={notificationType} />
+
+      <Filter filterText={filterText} handleFilter={handleFilter}></Filter>
+
+      <h2>Add a new </h2>
+
+    <PersonsForm addPerson={addPerson} setNewName={setNewName}  setNewNumber={setNewNumber}>  newNumber={newNumber} newName={newName}</PersonsForm>
+
+      <h2>Numbers</h2>
+    {filterText.length>0? <Persons deletePerson={deletePerson} persons={filterPersons}></Persons>: <Persons deletePerson={deletePerson}  persons={persons}></Persons>}
+   
+    </div>
+  )
+}
+
+export default App
+```
+
+
+
 # 2.18*: Phonebook step10
 Change the functionality so that if a number is added to an already existing user, the new number will replace the old number. It's recommended to use the HTTP PUT method for updating the phone number.
 

@@ -1,5 +1,30 @@
 import React, { useState, useEffect } from 'react'
 import personeService from './services/persons'
+import './index.css'
+
+
+const Notification = ({ message, type }) => {
+  if (message === null) {
+    return null
+  }
+
+  if(type === 'sucess'){
+    return (
+      <div className="sucess">
+        {message}
+      </div>
+    )
+  }
+
+  if(type === 'error'){
+    return (
+      <div className="error">
+        {message}
+      </div>
+    )
+  }
+ 
+}
 
 const Persons = ({persons, deletePerson}) =>{
   return(
@@ -39,6 +64,10 @@ const App = () => {
   const [ newNumber, setNewNumber ] = useState('')
   const [ filterText, setFilterText ] = useState('')
   const [ filterPersons, setFilterPersons] = useState([])
+  const [notificationMessage, setNotificationMessage] = useState(null)
+  // const [errorMessage, setErrorMessage] = useState('some error happened...')
+  const [notificationType, setNotificationType] = useState('sucess')
+
 
   useEffect(() => {
     console.log('effect')
@@ -61,8 +90,15 @@ const App = () => {
 
         personeService
           .create(personObj)
-          .then(pernsonObject => {
-            setPersons(persons.concat(pernsonObject))
+          .then(personObject => {
+            setPersons(persons.concat(personObject))
+
+            setNotificationMessage(`Added ${personObject.name}`)
+            setNotificationType('sucess');
+
+            setTimeout(() => {
+              setNotificationMessage(null)
+            }, 2000);
 
             setNewName('')
             setNewNumber('')
@@ -82,6 +118,15 @@ const App = () => {
           .update(foundPerson.id, changedPerson)
           .then(returnedPerson => {
             setPersons(persons.map( person => person.id !== foundPerson.id ? person: returnedPerson ))
+          })
+          .catch( error =>{
+            setNotificationType('error');
+            setNotificationMessage(`Information of ${newName} has already been removed from serer`)
+
+            setTimeout(() => {
+              setNotificationMessage(null)
+            }, 2000);
+
           })
       }
     }
@@ -116,6 +161,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notificationMessage} type={notificationType} />
 
       <Filter filterText={filterText} handleFilter={handleFilter}></Filter>
 

@@ -155,3 +155,65 @@ const person = {
 }
 
 ```
+
+# CSS
+
+### importing the file 
+```js
+//top of react file
+ import './someFile.css'
+
+ // some css file
+ {
+  color: green;
+  font-style: italic;
+  font-size: 16px;
+}
+ ```
+
+### importing the file 
+```js
+{
+  color: 'green',
+  fontStyle: 'italic',
+  fontSize: 16
+}
+```
+
+```js
+//example
+const Footer = () => {
+  const footerStyle = {
+    color: 'green',
+    fontStyle: 'italic',
+    fontSize: 16
+  }
+
+  return (
+    <div style={footerStyle}>
+      <br />
+      <em>Note app, Department of Computer Science, University of Helsinki 2020</em>
+    </div> 
+  )
+}
+
+const App = () => {
+  // ...
+
+  return (
+    <div>
+      <h1>Notes</h1>
+
+      <Notification message={errorMessage} />
+
+      // ...  
+
+      <Footer />
+    </div>
+  )
+}
+```
+
+# REACT Strucutre
+The structural units that make up the application's functional entities are React components. A React component defines the HTML for structuring the content, the JavaScript functions for determining functionality, and also the component's styling; all in one place. This is to create individual components that are as independent and reusable as possible.
+
