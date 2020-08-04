@@ -6,11 +6,6 @@ A repo that contains all my fullstackopen assigments
 - [Courses](https://fullstackopen.com/en#course-contents)
 - [submit](https://studies.cs.helsinki.fi/stats/courses/fullstackopen)
 
-## Git
-
-```js
-rm -rf .git
-```
 
 # Resources
 
@@ -33,11 +28,26 @@ rm -rf .git
 [axiosLibrary](https://github.com/axios/axios)
 
 ## npm
+- [transitiveDependencies](https://lexi-lambda.github.io/blog/2016/08/24/understanding-the-npm-dependency-model/)
 - npm install json-server --save-dev
 ```js
 //Install json-server as a development dependency (only used during development)
 ```
 - npm run server
+
+## web server library , Express
+defining it as a project dependency with the command
+```
+npm install express --save
+```
+
+##### during dev
+```
+npm install --save-dev nodemon
+node_modules/.bin/nodemon index.js
+
+```
+
 
 # notes
 There is a fine difference in the parameters. axios is installed as a runtime dependency (--save) of the application, because the execution of the program requires the existence of the library. On the other hand, json-server was installed as a development dependency (--save-dev),
@@ -68,6 +78,11 @@ npm install json-server --save-dev
 
 - [higherOrderFunc](https://www.youtube.com/watch?v=BMUiFMZr7vk&list=PL0zVEGEvSaeEd9hlmCXrk5yUyqUag-n84)
 
+## Git
+
+```js
+rm -rf .git
+```
 
 # JS Important Concept 
 
@@ -136,6 +151,24 @@ axios
   ```
 
 # REST
+Representational State Transfer, aka. REST 
+[REST_Dissertation](https://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm)
+
+### RESTful thinking
+Every resource has an associated URL which is the resource's unique address.
+
+### api
+Let's assume that the root URL of our service is 
+```
+www.example.com/api.
+```
+
+## REST API
+[def](https://roy.gbiv.com/untangled/2008/rest-apis-must-be-hypertext-driven)
+
+
+
+
 
 
 # ES6
