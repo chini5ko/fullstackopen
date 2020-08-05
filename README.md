@@ -41,13 +41,27 @@ defining it as a project dependency with the command
 npm install express --save
 ```
 
+# Middleware
+
+[Middleware](http://expressjs.com/en/guide/using-middleware.html) functions are functions that have access to the request object (req), the response object (res), and the next middleware function in the application’s request-response cycle. The next middleware function is commonly denoted by a variable named next.
+
+```js
+//The json-parser we used earlier takes the raw data from the requests that's stored in the request object, parses it into a JavaScript object and assigns it to the request object as a new property body
+
+app.use(express.json())
+```
 ##### during dev
 ```
 npm install --save-dev nodemon
 node_modules/.bin/nodemon index.js
-
 ```
 
+##### Same origin policy and CORS
+```js
+const cors = require('cors')
+
+app.use(cors())
+```
 
 # notes
 There is a fine difference in the parameters. axios is installed as a runtime dependency (--save) of the application, because the execution of the program requires the existence of the library. On the other hand, json-server was installed as a development dependency (--save-dev),
@@ -249,4 +263,15 @@ const App = () => {
 
 # REACT Strucutre
 The structural units that make up the application's functional entities are React components. A React component defines the HTML for structuring the content, the JavaScript functions for determining functionality, and also the component's styling; all in one place. This is to create individual components that are as independent and reusable as possible.
+
+
+# deploy 
+
+## Heroku
+```sh
+$ heroku create
+$ git push heroku master
+$ heroku ps:scale web=1s
+$ heroku logs --tail
+```
 
