@@ -103,6 +103,10 @@ const App = () => {
             setNewName('')
             setNewNumber('')
           })
+          .catch(error => {
+            setNotificationMessage(`${error.response.data.error}`)
+            setNotificationType('error');
+          })
   
       // setPersons(persons.concat(personObj));
     }
