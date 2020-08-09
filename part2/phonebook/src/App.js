@@ -29,7 +29,7 @@ const Notification = ({ message, type }) => {
 const Persons = ({persons, deletePerson}) =>{
   return(
     <div>
-      {persons.map((person) => <p key={person.id}>{person.name} {person.number} <button onClick={() => deletePerson(person)}>delete</button></p>)}
+      {persons.map((person) => <p key={person['_id']}>{person.name} {person.number} <button onClick={() => deletePerson(person)}>delete</button></p>)}
     </div>
   )
 }
@@ -113,11 +113,11 @@ const App = () => {
         const foundPerson = persons.find( person => person.name === newName);
         const changedPerson = {... foundPerson, number: newNumber}
 
-        //update
+        //update 
         personeService
-          .update(foundPerson.id, changedPerson)
+          .update(foundPerson._id, changedPerson)
           .then(returnedPerson => {
-            setPersons(persons.map( person => person.id !== foundPerson.id ? person: returnedPerson ))
+            setPersons(persons.map( person => person._id !== foundPerson._id ? person: returnedPerson ))
           })
           .catch( error =>{
             setNotificationType('error');
@@ -146,11 +146,12 @@ const App = () => {
 
   const deletePerson = (personToBeDeleted) => {
 
-    if(window.confirm(`Delete ${personToBeDeleted.name}`)){
+    console.log('delete: ',personToBeDeleted._id )
+    if(window.confirm(`Delete ${personToBeDeleted._id}`)){
       personeService
-      .deleteObjectById(personToBeDeleted.id)
+      .deleteObjectById(personToBeDeleted._id)
       .then(
-        setPersons(persons.filter((person) => person.id !== personToBeDeleted.id))
+        setPersons(persons.filter((person) => person['_id'] !== personToBeDeleted['_id']))
       )
       .then(
         setFilterText('')

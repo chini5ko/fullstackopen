@@ -82,6 +82,12 @@ npm install json-server --save-dev
 }
 ```
 
+## Enviromental Var
+[doteven](https://github.com/motdotla/dotenv#readme)
+```
+npm install dotenv --save
+```
+
 ##### video
 [functional programming](https://www.youtube.com/playlist?list=PL0zVEGEvSaeEd9hlmCXrk5yUyqUag-n84)
 [eventLoopJs](https://www.youtube.com/watch?v=8aGhZQkoFbQ)
@@ -274,4 +280,12 @@ $ git push heroku master
 $ heroku ps:scale web=1s
 $ heroku logs --tail
 ```
+
+# Database
+
+# MongoDB
+[MongoDB_Atals](mongodb.com/cloud/atlas)
+
+### JS models
+Models are so-called constructor functions that create new JavaScript objects based on the provided parameters. Since the objects are created with the model's constructor function, they have all the properties of the model, which include methods for saving the object to the database.
 
