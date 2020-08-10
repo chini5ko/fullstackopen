@@ -289,3 +289,16 @@ $ heroku logs --tail
 ### JS models
 Models are so-called constructor functions that create new JavaScript objects based on the provided parameters. Since the objects are created with the model's constructor function, they have all the properties of the model, which include methods for saving the object to the database.
 
+
+# esLint configuration
+[Eslint_Website](https://eslint.org/)
+Add ESlint to your application and fix all the warnings.
+- [AirBnbEslintConfit](https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb)
+```js
+npm install eslint --save-dev
+```
+
+```js
+node_modules/.bin/eslint --init
+```
+
