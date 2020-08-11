@@ -7,9 +7,9 @@ Refactor the application into separate modules as shown earlier in this part of 
 ├── build
 │   └── ...
 ├── controllers
-│   └── notes.js
+│   └── blogs.js
 ├── models
-│   └── note.js
+│   └── blog.js
 ├── package-lock.json
 ├── package.json
 ├── utils
