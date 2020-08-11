@@ -1,6 +1,24 @@
 # 4.2 Blog list, step2
 Refactor the application into separate modules as shown earlier in this part of the course material.
 
+```
+├── index.js
+├── app.js
+├── build
+│   └── ...
+├── controllers
+│   └── notes.js
+├── models
+│   └── note.js
+├── package-lock.json
+├── package.json
+├── utils
+│   ├── config.js
+│   ├── logger.js
+│   └── middleware.js  
+
+```
+
 
 # 4.1 Blog list, step1
 Let's imagine a situation, where you receive an email that contains the following application body:
