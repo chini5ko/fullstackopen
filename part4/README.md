@@ -1,3 +1,71 @@
+# 4.4: helper functions and unit tests, step2
+Define a new totalLikes function that receives a list of blog posts as a parameter. The function returns the total sum of likes in all of the blog posts.
+
+```js
+// list_helper.js
+const totalLikes = (blogs) => {
+  if (blogs.length === 0){
+    return 0
+  }
+  const reducer = (sum, item) => {
+    return sum + item.likes
+  }
+  return blogs.reduce(reducer,0)
+}
+
+// totalLikes.test
+const listHelper = require('../utils/list_helper')
+
+describe('total likes', () => {
+
+  test('of empty list is zero', () => {
+    expect(listHelper.totalLikes([])).toBe(0)
+  })
+
+  test('when list has only one blog equals the likes of that', () => {
+    const result = listHelper.totalLikes(listWithOneBlog)
+    expect(result).toBe(5)
+  })
+
+  test('of a biggest list is calculated right', () => {
+    const result = listHelper.totalLikes(listWithThreeBlogs)
+    expect(result).toBe(8)
+  })
+
+})
+
+
+```
+
+# 4.3: helper functions and unit tests, step1
+First define a dummy function that receives an array of blog posts as a parameter and always returns the value 1.
+
+```
+ PASS  tests/dummy.test.js
+  √ dummy returns one (3 ms)
+```
+
+```js
+const dummy = (blogs) => {
+  return 1
+  // ...
+}
+
+module.exports = {
+  dummy
+}
+```
+```js
+const listHelper = require('../utils/list_helper')
+
+test('dummy returns one', () => {
+  const blogs = []
+
+  const result = listHelper.dummy(blogs)
+  expect(result).toBe(1)
+})
+```
+
 # 4.2 Blog list, step2
 Refactor the application into separate modules as shown earlier in this part of the course material.
 
