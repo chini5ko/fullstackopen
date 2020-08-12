@@ -1,3 +1,178 @@
+# 4a test results 
+```jest
+PASS  tests/mostLikes.test.js
+  Most Liked Blog
+    √ Edsger W. Dijkstra has the most likes (15 ms)
+
+ PASS  tests/favoriteBlog.test.js  
+  favorite Blog
+    √ Canonical string reduction had the most number of likes (32 ms)
+
+ PASS  tests/mostBlogs.test.js     
+  favorite Blog
+    √ Robert C. Martin has the most blogs (8 ms)
+
+ PASS  tests/dummy.test.js
+  √ dummy returns one (4 ms)
+
+ PASS  tests/totalLikes.test.js
+  total likes
+    √ of empty list is zero (18 ms)
+    √ when list has only one blog equals the likes of that (1 ms)
+    √ of a biggest list is calculated right (3 ms)
+``` 
+
+# 4.7*: helper functions and unit tests, step5
+Define a function called mostLikes that receives an array of blogs as its parameter. The function returns the author, whose blog posts have the largest amount of likes.
+
+```js
+
+
+// test 
+const listHelper = require('../utils/list_helper')
+const blogs = require('./blogsJSON')
+
+describe('Most Liked Blog', () => {
+
+  const mostLikedBlog = {
+    author: 'Edsger W. Dijkstra',
+    likes: 17
+  }
+
+  test('Edsger W. Dijkstra has the most likes', () => {
+    const result = listHelper.mostLikes(blogs)
+    expect(result).toEqual(mostLikedBlog)
+  })
+})
+
+//helper 
+const mostLikes = (blogs) => {
+  const map = new Map()
+
+  blogs.map(blog => map.set(blog.author, (map.has(blog.author)) ? map.get(blog.author) + blog.likes : blog.likes ))
+
+  let mostLikes = {
+    'author': '',
+    'likes' : 0
+  }
+
+  for (let [author, likes] of map){
+    if(mostLikes.likes < likes){
+      mostLikes = {
+        'author': author,
+        'likes' : likes
+      }
+    }
+  }
+
+  return mostLikes
+}
+
+```
+
+# 4.6*: helper functions and unit tests, step4
+Define a function called mostBlogs that receives an array of blogs as a parameter. The function returns the author who has the largest amount of blogs. 
+
+```js
+//test 
+
+
+describe('favorite Blog', () => {
+
+  const mostLikedBlog = {
+    author: 'Robert C. Martin',
+    blogs: 3
+  }
+
+  test('Robert C. Martin has the most blogs', () => {
+    const result = listHelper.mostBlogs(blogs)
+    expect(result).toEqual(mostLikedBlog)
+  })
+})
+
+// helper 
+const mostBlogs = (blogs) => {
+  const map = new Map()
+
+  blogs.map(blog => map.set(blog.author, (map.has(blog.author)) ? map.get(blog.author) + 1 : 1 ))
+
+  let mostBlogs = {
+    'author': '',
+    'blogs' : 0
+  }
+
+  for (let [author, blogs] of map){
+    if(mostBlogs.blogs < blogs){
+      mostBlogs = {
+        'author': author,
+        'blogs' : blogs
+      }
+    }
+  }
+
+  return mostBlogs
+
+}
+
+```
+
+# 4.5*: helper functions and unit tests, step3
+Define a new favoriteBlog function that receives a list of blogs as a parameter. The function finds out which blog has most likes. If there are many top favorites, it is enough to return one of them.
+
+```js
+// helper
+
+const favoriteBlog = (blogs) => {
+  const reducer = (mostLiked, blog) => {
+    return (mostLiked.likes > blog.likes) ? mostLiked : blog
+  }
+  return blogs.reduce(reducer)
+}
+// test 
+const listHelper = require('../utils/list_helper')
+const blogs = require('./blogsJSON')
+
+describe('favorite Blog', () => {
+
+  const mostLikedBlog = {
+    '_id': '5a422b3a1b54a676234d17f9',
+    'title': 'Canonical string reduction',
+    'author': 'Edsger W. Dijkstra',
+    'url': 'http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html',
+    'likes': 12,
+    '__v': 0
+  }
+
+  test('Canonical string reduction had the most number of likes', () => {
+    const result = listHelper.favoriteBlog(blogs)
+    expect(result).toEqual(mostLikedBlog)
+  })
+})
+
+```
+
+```
+
+ PASS  tests/dummy.test.js       
+  √ dummy returns one (4 ms)
+
+ PASS  tests/totalLikes.test.js
+  total likes
+    √ of empty list is zero (3 ms)
+    √ when list has only one blog equals the likes of that (1 ms)
+    √ of a biggest list is calculated right (1 ms)
+
+ PASS  tests/favoriteBlog.test.js
+  favorite Blog
+    √ Canonical string reduction had the most number of likes (4 ms)
+
+Test Suites: 3 passed, 3 total
+Tests:       5 passed, 5 total
+Snapshots:   0 total
+Time:        3.514 s
+Ran all test suites.
+```
+
 # 4.4: helper functions and unit tests, step2
 Define a new totalLikes function that receives a list of blog posts as a parameter. The function returns the total sum of likes in all of the blog posts.
 
