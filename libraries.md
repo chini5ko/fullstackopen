@@ -15,9 +15,6 @@
 - npm install --save-dev jest
 - npm install --save-dev supertest
 
-
-
-
 ## Package.json 
 ```js
   "scripts": {
@@ -26,7 +23,6 @@
     "lint": "eslint ."
   },
 ```
-
 
 ### JETS
 ```js

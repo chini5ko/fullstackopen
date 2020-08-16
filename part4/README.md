@@ -1,3 +1,31 @@
+# 4.8: Blog list tests, step1
+Use the supertest package for writing a test that makes an HTTP GET request to the /api/blogs url. Verify that the blog list application returns the correct amount of blog posts in the JSON format
+
+ Verify that the blog list application returns the correct amount of blog posts in the JSON format.
+
+ Notice that you will have to make similar changes to the code that were made in the material, like defining the test environment so that you can write tests that use their own separate database.
+
+
+```js
+// running filter: npm test -- -t "http"
+// added test_helper to init the blogs 
+beforeEach(async () => {
+  await Blog.deleteMany({})
+
+  const BlogObjects = helper.initialBlogs
+    .map(blog => new Blog(blog))
+  const promiseArray = BlogObjects.map(blog => blog.save())
+  await Promise.all(promiseArray)
+})
+
+describe('HTTP GET /api/blogs ', () => {
+  test('http application returns the correct amount of blog', async () => {
+    const response = await api.get('/api/blogs')
+    expect(response.body.length).toBe(helper.initialBlogs.length)
+  })
+})
+
+```
 # 4a test results 
 ```jest
 PASS  tests/mostLikes.test.js
