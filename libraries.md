@@ -4,12 +4,17 @@
 - npm install dotenv --save
 
 - npm install mongoose --save
+- npm install cross-env // cross-platform compatibility
+- npm install express-async-errors --save
+
 
 
 # Dev
 - npm install eslint --save-dev
 - npm install nodemon --save-dev
 - npm install --save-dev jest
+- npm install --save-dev supertest
+
 
 
 

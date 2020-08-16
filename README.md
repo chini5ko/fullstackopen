@@ -302,3 +302,166 @@ npm install eslint --save-dev
 node_modules/.bin/eslint --init
 ```
 
+# JEST
+
+### Shell
+```s
+npm test
+npm test -- tests/note_api.test.js
+npm test -- -t 'a specific note is within the returned notes'
+npm test -- -t 'notes'
+
+
+```
+
+```js
+{
+//...
+  "scripts": {
+    "test": "jest --verbose"
+  },
+  "author": "Hector Liang",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+  },
+  "devDependencies": {
+    "jest": "^26.3.0",
+  }, 
+  "jest": {
+    "testEnvironment": "node"
+  }
+}
+
+```
+
+### Testing
+values
+```js
+// single values 
+    expect(average([])).toBe(0)
+
+// Objects 
+     const mostLikedBlog = {
+    author: 'Robert C. Martin',
+    blogs: 3
+  }
+
+  test('Robert C. Martin has the most blogs', () => {
+    const result = listHelper.mostBlogs(blogs)
+    expect(result).toEqual(mostLikedBlog)
+  })
+```
+
+
+http
+```js
+   .get('/api/notes')
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+```
+
+arrays
+```js
+ const response = await api.get('/api/notes')
+
+  const contents = response.body.map(r => r.content)
+
+  expect(contents).toContain(
+    'Browser can execute only Javascript'
+  )
+```
+
+# async/await
+
+## await 
+- in order to use the await operator with asynchronous operations, they have to return a promise.
+- Using await is possible only inside of an async function
+```js
+const main = async () => {
+  const notes = await Note.find({})
+  console.log('operation returned the following notes', notes)
+
+  const response = await notes[0].remove()
+  console.log('the first note is removed')
+}
+
+main()
+
+//back-end
+notesRouter.get('/', async (request, response) => { 
+  const notes = await Note.find({})
+  response.json(notes)
+})
+```
+```js
+// await, 
+const notes = await Note.find({}) //<- The execution of code pauses  
+// .
+// .
+//  waits until the related promise is fulfilled, then continues its execution to the next line
+console.log('operation returned the following notes', notes)
+
+// then chain
+Note.find({})
+  .then(notes => {
+    return notes[0].remove()
+  })
+  .then(response => {
+    console.log('the first note is removed')
+    // more code here
+  })
+
+// The Note.find() method returns a promise and we can access the result of the operation by registering a callback function with the then method
+Note.find({}).then(notes => {
+  console.log('operation returned the following notes', notes)
+})
+
+
+```
+
+## Eliminating the try-catch
+
+```js
+try {
+  // do the async operations here
+} catch(exception) {
+  next(exception)
+}
+```
+
+```js
+// npm install express-async-errors --save
+
+require('express-async-errors')
+
+//new
+notesRouter.delete('/:id', async (request, response) => {
+  await Note.findByIdAndRemove(request.params.id)
+  response.status(204).end()
+})
+
+//old 
+notesRouter.delete('/:id', async (request, response, next) => {
+  try {
+    await Note.findByIdAndRemove(request.params.id)
+    response.status(204).end()
+  } catch (exception) {
+    next(exception)
+  }
+})
+
+```
+
+### Promise.all(someArray)
+
+```js
+beforeEach(async () => {
+  await Note.deleteMany({})
+
+  const noteObjects = helper.initialNotes
+    .map(note => new Note(note))
+  const promiseArray = noteObjects.map(note => note.save())
+  await Promise.all(promiseArray)
+})
+```
