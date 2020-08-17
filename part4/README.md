@@ -1,6 +1,49 @@
 # 4.12*: Blog list tests, step5
 Write a test related to creating new blogs via the /api/blogs endpoint, that verifies that if the title and url properties are missing from the request data, the backend responds to the request with the status code 400 Bad Request.
 
+```js
+
+describe('HTTP POST /api/blogs with no title or url ', () => {
+  test('with no title', async () => {
+
+    const newBlog = {
+      '_id': '5a422a851b54a676234d17f9',
+      'author': 'Nisko L',
+      'url': 'https://reactpatterns.com/',
+      'likes': 100,
+      '__v': 0
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+
+    const response = await api.get('/api/blogs')
+    expect(response.body.length).toBe(helper.initialBlogs.length )
+  })
+
+  test('with no url', async () => {
+
+    const newBlog = {
+      '_id': '5a422a851b54a676234d17f9',
+      'title': 'who is who',
+      'author': 'Nisko L',
+      'likes': 100,
+      '__v': 0
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+
+    const response = await api.get('/api/blogs')
+    expect(response.body.length).toBe(helper.initialBlogs.length )
+  })
+})
+```
+
 Make the required changes to the code so that it passes the test.
 # 4.11*: Blog list tests, step4
 Write a test that verifies that if the likes property is missing from the request, it will default to the value 0. Do not test the other properties of the created blogs yet.

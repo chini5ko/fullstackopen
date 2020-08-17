@@ -12,19 +12,21 @@ blogsRouter.get('/', (request, response) => {
 
 blogsRouter.post('/', (request, response) => {
 
-  // check
-  if (!request.body['url'] && !request.body['title']) {
-    response.status(400)
+  // response.status(400)
+  if (request.body.title === undefined) {
+    response.status(400).json('title not found')
   }
-
-
-  const blog = new Blog(request.body)
-
-  blog
-    .save()
-    .then(result => {
-      response.status(201).json(result)
-    })
+  else if(request.body.url === undefined){
+    response.status(400).json('url not found')
+  }
+  else{
+    const blog = new Blog(request.body)
+    blog
+      .save()
+      .then(result => {
+        response.status(201).json(result)
+      })
+  }
 })
 
 module.exports = blogsRouter

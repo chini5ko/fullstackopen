@@ -4,9 +4,6 @@ const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
 const api = supertest(app)
-require('express-async-errors')
-
-
 
 const Blog = require('../models/blog')
 const helper = require('./test_helper')
@@ -35,28 +32,45 @@ beforeEach(async () => {
 //   })
 // })
 
-// describe('HTTP POST /api/blogs ', () => {
-//   test('http application returns the correct amount of blog', async () => {
+describe('HTTP POST /api/blogs with no title or url ', () => {
+  test('with no title', async () => {
 
-//     const newBlog = {
-//       '_id': '5a422a851b54a676234d17f9',
-//       'title': 'qwertyu',
-//       'author': 'Nisko L',
-//       'url': 'https://reactpatterns.com/',
-//       'likes': 100,
-//       '__v': 0
-//     }
+    const newBlog = {
+      '_id': '5a422a851b54a676234d17f9',
+      'author': 'Nisko L',
+      'url': 'https://reactpatterns.com/',
+      'likes': 100,
+      '__v': 0
+    }
 
-//     await api
-//       .post('/api/blogs')
-//       .send(newBlog)
-//       .expect(201)
-//       .expect('Content-Type', /application\/json/)
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
 
-//     const response = await api.get('/api/blogs')
-//     expect(response.body.length).toBe(helper.initialBlogs.length + 1)
-//   })
-// })
+    const response = await api.get('/api/blogs')
+    expect(response.body.length).toBe(helper.initialBlogs.length )
+  })
+
+  test('with no url', async () => {
+
+    const newBlog = {
+      '_id': '5a422a851b54a676234d17f9',
+      'title': 'who is who',
+      'author': 'Nisko L',
+      'likes': 100,
+      '__v': 0
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+
+    const response = await api.get('/api/blogs')
+    expect(response.body.length).toBe(helper.initialBlogs.length )
+  })
+})
 
 
 // describe('HTTP verifies the likes property', () => {
@@ -76,6 +90,36 @@ beforeEach(async () => {
 //   })
 // })
 
+
+// describe('HTTP POST /api/blogs ', () => {
+//   test('http application returns the correct amount of blog', async () => {
+
+//     const newBlog = {
+//       '_id': '5a422a851b54a676234d17f9',
+//       'author': 'Niskop p',
+//       'url': 'https://reactpatterns.com/',
+//       'likes': 100,
+//       '__v': 0
+//     }
+
+//     // const newBlog = {
+//     //   '_id': '5a422a851b54a676234d17f9',
+//     //   'title': 'qwertyu',
+//     //   'author': 'Niskop p',
+//     //   'url': 'https://reactpatterns.com/',
+//     //   'likes': 100,
+//     //   '__v': 0
+//     // }
+
+//     await api
+//       .post('/api/blogs')
+//       .send(newBlog)
+//       .expect(400)
+
+//     const response = await api.get('/api/blogs')
+//     expect(response.body.length).toBe(helper.initialBlogs.length )
+//   })
+// })
 
 
 
