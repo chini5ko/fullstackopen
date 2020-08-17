@@ -6,7 +6,6 @@ const initialBlogs = [
     'title': 'React patterns',
     'author': 'Michael Chan',
     'url': 'https://reactpatterns.com/',
-    'likes': 7,
     '__v': 0
   },
   {
@@ -46,7 +45,7 @@ const initialBlogs = [
     'title': 'Type wars',
     'author': 'Robert C. Martin',
     'url': 'http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html',
-    'likes': 3,
+    'likes': 2,
     '__v': 0
   }
 ]

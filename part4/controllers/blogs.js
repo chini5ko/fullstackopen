@@ -11,6 +11,13 @@ blogsRouter.get('/', (request, response) => {
 })
 
 blogsRouter.post('/', (request, response) => {
+
+  // check
+  if (!request.body['url'] && !request.body['title']) {
+    response.status(400)
+  }
+
+
   const blog = new Blog(request.body)
 
   blog

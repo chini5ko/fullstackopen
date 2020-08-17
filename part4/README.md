@@ -1,3 +1,76 @@
+# 4.12*: Blog list tests, step5
+Write a test related to creating new blogs via the /api/blogs endpoint, that verifies that if the title and url properties are missing from the request data, the backend responds to the request with the status code 400 Bad Request.
+
+Make the required changes to the code so that it passes the test.
+# 4.11*: Blog list tests, step4
+Write a test that verifies that if the likes property is missing from the request, it will default to the value 0. Do not test the other properties of the created blogs yet.
+
+Make the required changes to the code so that it passes the test.
+
+```js
+
+describe('HTTP verifies the likes property', () => {
+  test('http likes', async () => {
+    const responseBlogs = await api.get('/api/blogs')
+
+    responseBlogs.body.forEach(async (blog) => {
+      if (blog.likes === undefined) {
+        blog.likes = 0
+      }
+    })
+
+    responseBlogs.body.forEach(async (blog) => {
+      await expect(blog.likes).toBeDefined()
+    })
+
+  })
+})
+```
+
+
+# 4.10: Blog list tests, step3
+Write a test that verifies that making an HTTP POST request to the /api/blogs url successfully creates a new blog post. At the very least, verify that the total number of blogs in the system is increased by one. You can also verify that the content of the blog post is saved correctly to the database.
+
+```js
+
+describe('HTTP POST /api/blogs ', () => {
+  test('http application returns the correct amount of blog', async () => {
+
+    const newBlog = {
+      '_id': '5a422a851b54a676234d17f9',
+      'title': 'qwertyu',
+      'author': 'Nisko L',
+      'url': 'https://reactpatterns.com/',
+      'likes': 100,
+      '__v': 0
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    const response = await api.get('/api/blogs')
+    expect(response.body.length).toBe(helper.initialBlogs.length + 1)
+  })
+})
+```
+
+# 4.9*: Blog list tests, step2
+Write a test that verifies that the unique identifier property of the blog posts is named id, by default the database names the property _id. Verifying the existence of a property is easily done with Jest's toBeDefined matcher.
+
+Make the required changes to the code so that it passes the test. The toJSON method discussed in part 3 is an appropriate place for defining the id parameter.
+
+```js
+describe('HTTP id  ', () => {
+  test('http unique identifier property of the blog posts is named id', async () => {
+    const response = await api.get('/api/blogs')
+    expect(response.body[0].id).toBeDefined()
+  })
+})
+```
+
 # 4.8: Blog list tests, step1
 Use the supertest package for writing a test that makes an HTTP GET request to the /api/blogs url. Verify that the blog list application returns the correct amount of blog posts in the JSON format
 
