@@ -1,3 +1,41 @@
+
+# 4.14 Blog list expansions, step2
+Implement functionality for updating the information of an individual blog post.
+
+Use async/await.
+```js
+blogsRouter.put('/:id', async (request, response) => {
+  const body = request.body
+
+  const blog = {
+    title: body.title,
+    author: body.author,
+    url: body.url,
+    likes: body.likes,
+    id: request.params.id
+  }
+
+  const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
+  response.json(updatedBlog.toJSON())
+
+})
+```
+
+# 4.13 Blog list expansions, step1
+Implement functionality for deleting a single blog post resource.
+
+Use the async/await syntax. Follow RESTful conventions when defining the HTTP API.
+
+Feel free to implement tests for the functionality if you want to. Otherwise verify that the functionality works with Postman or some other tool.
+
+```js
+blogsRouter.delete('/:id', async (request, response) => {
+  await Blog.findByIdAndRemove(request.params.id)
+  response.status(204).end()
+})
+```
+
+
 # 4.12*: Blog list tests, step5
 Write a test related to creating new blogs via the /api/blogs endpoint, that verifies that if the title and url properties are missing from the request data, the backend responds to the request with the status code 400 Bad Request.
 
