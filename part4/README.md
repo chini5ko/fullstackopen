@@ -1,3 +1,45 @@
+# 4.18: bloglist expansion, step6
+Implement token-based authentication according to part 4 chapter Token authentication.
+
+# 4.17: bloglist expansion, step5
+Expand blogs so that each blog contains information on the creator of the blog.
+
+Modify adding new blogs so that when a new blog is created, any user from the database is designated as its creator (for example the one found first). Implement this according to part 4 chapter populate.
+
+```js
+// populate user in blogs
+
+blogsRouter.get('/', async (request, response) => {
+  const blogs = await Blog.find({}).populate('user', { username: 1, name: 1 })
+  response.json(blogs.map(blog => blog.toJSON()))
+})
+
+// http get
+usersRouter.get('/', async (request, response) => {
+  const users = await User
+    .find({}).populate('blogs')
+  response.json(users.map(u => u.toJSON()))
+})
+// schema
+const userSchema = mongoose.Schema({
+  username: {
+    type: String,
+    unique: true,
+    minlength: 3,
+    required: true
+  },
+  name: String,
+  passwordHash: String,
+  blogs: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Blog'
+    }
+  ],
+})
+```
+
+
 # 4.16*: bloglist expansion, step4
 Add a feature which adds the following restrictions to creating new users: Both username and password must be given. Both username and password must be at least 3 characters long. The username must be unique.
 
