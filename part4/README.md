@@ -1,3 +1,44 @@
+# 4.16*: bloglist expansion, step4
+Add a feature which adds the following restrictions to creating new users: Both username and password must be given. Both username and password must be at least 3 characters long. The username must be unique.
+
+```js
+
+const userSchema = mongoose.Schema({
+  username: {
+    type: String,
+    unique: true,
+    minlength: 3,
+    required: true
+  },
+  name: String,
+  passwordHash: String,
+  blogs: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Note'
+    }
+  ],
+})
+
+if (body.password.length < 3) {
+    response.status(400).json('password is less than 3 character')
+  }
+```
+
+uniqueness 
+- npm install --save mongoose-unique-validator
+
+
+# 4.15: bloglist expansion, step3
+Implement a way to create new users by doing a HTTP POST-request to address api/users. Users have username , password and name.
+
+- models/user.js
+- controllers/users.js
+- add this to app.js
+
+Libraries: 
+- npm install --save mongoose-unique-validator
+- npm install bcrypt --save
 
 # 4.14 Blog list expansions, step2
 Implement functionality for updating the information of an individual blog post.

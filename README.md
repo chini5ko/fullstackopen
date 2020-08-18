@@ -465,3 +465,46 @@ beforeEach(async () => {
   await Promise.all(promiseArray)
 })
 ```
+
+# [userAdmin](https://fullstackopen.com/en/part4/user_administration#populate)
+- [github](https://github.com/kelektiv/node.bcrypt.js)
+- one way HASH
+```
+npm install bcrypt --save
+```
+
+```js
+const saltRounds = 10
+  const passwordHash = await bcrypt.hash(body.password, saltRounds)
+
+  const user = new User({
+    username: body.username,
+    name: body.name,
+    passwordHash,
+  })
+```
+
+### Mongo Unique user 
+- npm install --save mongoose-unique-validator
+```js
+const mongoose = require('mongoose')
+const uniqueValidator = require('mongoose-unique-validator')
+
+const userSchema = new mongoose.Schema({
+  username: {
+    type: String,
+    unique: true
+  },
+  name: String,
+  passwordHash: String,
+  notes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Note'
+    }
+  ],
+})
+
+userSchema.plugin(uniqueValidator)
+```
+
