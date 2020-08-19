@@ -508,3 +508,9 @@ const userSchema = new mongoose.Schema({
 userSchema.plugin(uniqueValidator)
 ```
 
+### token 
+- 
+```s
+npm install jsonwebtoken --save
+```
+

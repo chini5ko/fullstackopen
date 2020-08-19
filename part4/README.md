@@ -1,5 +1,67 @@
+# 4.22*: bloglist expansion, step10
+After adding token based authentication the tests for adding a new blog broke down. Fix now the tests. Write also a new test that ensures that adding a blog fails with proper status code 401 Unauthorized if token is not provided.
+# 4.21*: bloglist expansion, step9
+Change the delete blog operation so that a blog can be deleted only by the user who added the blog. Therefore, deleting a blog is possible only if the token sent with the request is the same as that of the blog's creator.
+
+If deleting a blog is attempted without a token or by a wrong user, the operation should return a suitable status code.
+# 4.20*: bloglist expansion, step8
+This example from part 4 shows taking the token from the header with the getTokenFrom helper function.
+
+If you used the same solution, refactor taking the token to a middleware. The middleware should take the token from the Authorization header and place it to the token field of the request object.
+
+```js
+const tokenExtractor = (request, response, next) => {
+  const authorization = request.get('authorization')
+  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+    request.token = authorization.substring(7)
+  }
+  else{
+    request.token = null
+  }
+  next()
+}
+```
+
+# 4.19: bloglist expansion, step7
+Modify adding new blogs so that it is only possible if a valid token is sent with the HTTP POST request. The user identified by the token is designated as the creator of the blog.
+
+Headers 
+```js
+authorization bearer tokenValuejnwklkvjwrrkpsnjns
+
+const getTokenFrom = request => {
+  const authorization = request.get('authorization')
+  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+    return authorization.substring(7)
+  }
+  return null
+}
+
+
+```
+
 # 4.18: bloglist expansion, step6
 Implement token-based authentication according to part 4 chapter Token authentication.
+
+```js
+// POST 
+{
+    "username":"someUserName",
+    "password": "PassWord"
+}
+
+// Return 
+
+{
+    "token": "eyJhbkjfbwhjelwjekiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNoaW5pc2tvIiwia",
+    "username": "someUserName",
+    "name": "hector"
+}
+```
+
+```s
+npm install jsonwebtoken --save
+```
 
 # 4.17: bloglist expansion, step5
 Expand blogs so that each blog contains information on the creator of the blog.

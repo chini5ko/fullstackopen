@@ -1,0 +1,25 @@
+GET http://localhost:3002/api/users/
+
+###
+GET http://localhost:3002/api/blogs/
+
+###
+POST http://localhost:3002/api/login
+Content-Type: application/json
+
+{
+    "username":"chinisko",
+    "password": "k131"
+}
+
+###
+POST http://localhost:3002/api/blogs/
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNoaW5pc2tvIiwiaWQiOiI1ZjNjMjE0OTIxNmFjODViMTAyYWZmOWMiLCJpYXQiOjE1OTc4NDk4Mjl9.uF4wipRTRmnJQAK3hA0b6m36ux3DjW1GIA4t6C-8nEI
+
+{
+    "title":"the vege  ",
+   "author":"hectsdosr",
+    "url": "www.senk.ed",
+    "likes":211
+}
