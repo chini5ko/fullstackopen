@@ -63,6 +63,9 @@ blogsRouter.post('/', async (request, response) => {
   else if (request.body.url === undefined) {
     response.status(400).json('url not found')
   }
+  else if (request.token === undefined) {
+    response.status(401).json('token missing or invalid')
+  }
   else {
     const body = request.body
     const token = request.token

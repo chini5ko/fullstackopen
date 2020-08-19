@@ -1,10 +1,91 @@
 # 4.22*: bloglist expansion, step10
 After adding token based authentication the tests for adding a new blog broke down. Fix now the tests. Write also a new test that ensures that adding a blog fails with proper status code 401 Unauthorized if token is not provided.
+```js
+
+describe('unique users and blogs operation', () => {
+  test('add new blog with correct user', async () => {
+    // const responseBlogs = await api.get('/api/blogs')
+    const loginData = {
+      'username': 'Zoro',
+      'password': 'sword'
+    }
+
+    const user = await api
+      .post('/api/login')
+      .send(loginData)
+      .expect(200)
+
+    console.log('user, ', user.body)
+
+    const token = user.body.token
+    const decodedToken = jwt.verify(token, process.env.SECRET)
+    if (!token || !decodedToken.id) {
+      // return response.status(401).json({ error: 'token missing or invalid' })
+      console.log('token missing or invalid')
+    }
+
+    const userId = decodedToken.id
+    console.log('userId', userId)
+
+    const newBlog = {
+      'title': 'the vjegeS  ',
+      'author': 'hectsdosr',
+      'url': 'www.senk.ed',
+      'likes': 311
+    }
+
+    await api
+      .post('/api/blogs')
+      .set('Authorization', 'bearer ' + token)
+      .send(newBlog)
+      .expect(200)
+  })
+
+  test('add new blog with no token', async () => {
+    // const responseBlogs = await api.get('/api/blogs')
+    const loginData = {
+      'username': 'Zoro',
+      'password': 'sword'
+    }
+
+    const user = await api
+      .post('/api/login')
+      .send(loginData)
+      .expect(200)
+
+    console.log('user, ', user.body)
+
+    const token = user.body.token
+    const decodedToken = jwt.verify(token, process.env.SECRET)
+    if (!token || !decodedToken.id) {
+      // return response.status(401).json({ error: 'token missing or invalid' })
+      console.log('token missing or invalid')
+    }
+
+    const userId = decodedToken.id
+    console.log('userId', userId)
+
+    const newBlog = {
+      'title': 'the vjegeS  ',
+      'author': 'hectsdosr',
+      'url': 'www.senk.ed',
+      'likes': 311
+    }
+
+    await api
+      .post('/api/blogs')
+      // .set('Authorization', 'bearer ' + token)
+      .send(newBlog)
+      .expect(401)
+  })
+
+})
+```
 
 
 # 4.21*: bloglist expansion, step9
 Change the delete blog operation so that a blog can be deleted only by the user who added the blog. Therefore, deleting a blog is possible only if the token sent with the request is the same as that of the blog's creator.
-```
+```js
 
 blogsRouter.delete('/:id', async (request, response) => {
   const token = request.token
