@@ -1,7 +1,30 @@
 # 4.22*: bloglist expansion, step10
 After adding token based authentication the tests for adding a new blog broke down. Fix now the tests. Write also a new test that ensures that adding a blog fails with proper status code 401 Unauthorized if token is not provided.
+
+
 # 4.21*: bloglist expansion, step9
 Change the delete blog operation so that a blog can be deleted only by the user who added the blog. Therefore, deleting a blog is possible only if the token sent with the request is the same as that of the blog's creator.
+```
+
+blogsRouter.delete('/:id', async (request, response) => {
+  const token = request.token
+  const decodedToken = jwt.verify(token, process.env.SECRET)
+  if (!token || !decodedToken.id) {
+    return response.status(401).json({ error: 'token missing or invalid' })
+  }
+  const user = await User.findById(decodedToken.id)
+  const blogId = request.params.id
+  const blog = await Blog.findById(blogId)
+
+  if (user.id.toString() === blog.user.toString()) {
+    await Blog.findByIdAndRemove(request.params.id)
+    response.status(204).end()
+  }
+  else {
+    return response.status(401).json({ error: 'invalid user' })
+  }
+})
+```
 
 If deleting a blog is attempted without a token or by a wrong user, the operation should return a suitable status code.
 # 4.20*: bloglist expansion, step8

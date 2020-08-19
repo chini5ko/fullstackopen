@@ -3,13 +3,23 @@ GET http://localhost:3002/api/users/
 ###
 GET http://localhost:3002/api/blogs/
 
-###
+### 
+POST http://localhost:3002/api/users
+Content-Type: application/json
+
+{
+    "username":"Zoro",
+    "name":"Roronoa Zoro",
+    "password": "sword"
+}
+
+### 
 POST http://localhost:3002/api/login
 Content-Type: application/json
 
 {
-    "username":"chinisko",
-    "password": "k131"
+    "username":"Zoro",
+    "password": "sword"
 }
 
 ###
@@ -18,8 +28,12 @@ Content-Type: application/json
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNoaW5pc2tvIiwiaWQiOiI1ZjNjMjE0OTIxNmFjODViMTAyYWZmOWMiLCJpYXQiOjE1OTc4NDk4Mjl9.uF4wipRTRmnJQAK3hA0b6m36ux3DjW1GIA4t6C-8nEI
 
 {
-    "title":"the vege  ",
+    "title":"the vegeS  ",
    "author":"hectsdosr",
     "url": "www.senk.ed",
     "likes":211
 }
+
+### 
+DELETE http://localhost:3002/api/blogs/5f3c21cc216ac85b102aff9d
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ilpvcm8iLCJpZCI6IjVmM2Q0Nzc5Y2Q1NzI5NWE0YzYyYjU0ZSIsImlhdCI6MTU5Nzg1MTU0MH0.kkOk463auEAEtB1Yq4LB91IlPwP4L9onmchqyIoWdek
