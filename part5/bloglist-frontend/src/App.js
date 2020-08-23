@@ -2,6 +2,31 @@ import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import './style.css'
+
+
+const Notification = ({ message, type }) => {
+  if (message === null) {
+    return null
+  }
+
+  if(type === 'success'){
+    return (
+      <div className="success">
+        {message}
+      </div>
+    )
+  }
+
+  if(type === 'error'){
+    return (
+      <div className="error">
+        {message}
+      </div>
+    )
+  }
+ 
+}
 
 
 const App = () => {
@@ -14,6 +39,10 @@ const App = () => {
   const [url, setUrl] = useState('')
 
   const [user, setUser] = useState(null)
+
+  const [notificationMessage, setNotificationMessage] = useState(null)
+  // const [errorMessage, setErrorMessage] = useState('some error happened...')
+  const [notificationType, setNotificationType] = useState('success')
 
 
   useEffect(() => {
@@ -48,10 +77,11 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      alert('Wrong credentials')
-      // setTimeout(() => {
-      //   setErrorMessage(null)
-      // }, 5000)
+      setNotificationMessage('Wrong credentials')
+      setNotificationType('error');
+      setTimeout(() => {
+        setNotificationMessage(null)
+      }, 1000);
     }
   }
 
@@ -66,18 +96,27 @@ const App = () => {
     }
 
     try {
-      await blogService.create(newBlog)
-      // setUser(user)
+     let blog =  await blogService.create(newBlog)
+     console.log(blog)
+      setNotificationMessage(`a new blog ${blog.title} by ${blog.author}` )
+      setNotificationType('success');
+      // setTimeout(() => {
+      //   setNotificationMessage(null)
+      // }, 1000);
+
       setTitle('')
       setUrl('')
       setAuthor('')
     } catch (exception) {
-      alert('Wrong credentials')
-      // setTimeout(() => {
-      //   setErrorMessage(null)
-      // }, 5000)
+      alert('Create, Blog exception')
     }
 
+  }
+
+  const handleLogout = (event) =>{
+    event.preventDefault()
+    window.localStorage.clear()
+    window.location.reload()
   }
 
   const loginForm = () => (
@@ -151,10 +190,11 @@ const App = () => {
 
   return (
     <div>
+    <Notification message={notificationMessage} type={notificationType} />
     {user === null ?
       loginForm() :
       <div>
-        <p>{user.name} logged-in</p>
+        <p>{user.name} logged-in <button onClick={handleLogout}>logout</button> </p>
         {createForm()}
         {blogList()}
       </div>
