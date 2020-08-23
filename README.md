@@ -514,3 +514,14 @@ userSchema.plugin(uniqueValidator)
 npm install jsonwebtoken --save
 ```
 
+# browser local storage 
+[https://developer.mozilla.org/en-US/docs/Web/API/Storage](https://developer.mozilla.org/en-US/docs/Web/API/Storage)
+-  key-value database in the browser.
+```js 
+window.localStorage.setItem('name', 'juha tauriainen')
+window.localStorage.getItem('name')
+storage.removeItem(keyName);
+window.localStorage.clear()
+
+
+```

@@ -1,10 +1,10 @@
-GET http://localhost:3002/api/users/
+GET http://localhost:3001/api/users/
 
 ###
-GET http://localhost:3002/api/blogs/
+GET http://localhost:3001/api/blogs/
 
 ### 
-POST http://localhost:3002/api/users
+POST http://localhost:3001/api/users
 Content-Type: application/json
 
 {
@@ -14,7 +14,7 @@ Content-Type: application/json
 }
 
 ### 
-POST http://localhost:3002/api/login
+POST http://localhost:3001/api/login
 Content-Type: application/json
 
 {
@@ -23,9 +23,9 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:3002/api/blogs/
+POST http://localhost:3001/api/blogs/
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNoaW5pc2tvIiwiaWQiOiI1ZjNjMjE0OTIxNmFjODViMTAyYWZmOWMiLCJpYXQiOjE1OTc4NDk4Mjl9.uF4wipRTRmnJQAK3hA0b6m36ux3DjW1GIA4t6C-8nEI
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ilpvcm8iLCJpZCI6IjVmM2Q0Nzc5Y2Q1NzI5NWE0YzYyYjU0ZSIsImlhdCI6MTU5ODIwOTc3NH0.iWczRejaRAss1mNc9hXP28yMYFChlmrUgdZNYZtdUbE
 
 {
     "title":"the vegeS  ",
@@ -35,5 +35,5 @@ Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNoa
 }
 
 ### 
-DELETE http://localhost:3002/api/blogs/5f3c21cc216ac85b102aff9d
+DELETE http://localhost:3001/api/blogs/5f3c21cc216ac85b102aff9d
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ilpvcm8iLCJpZCI6IjVmM2Q0Nzc5Y2Q1NzI5NWE0YzYyYjU0ZSIsImlhdCI6MTU5Nzg1MTU0MH0.kkOk463auEAEtB1Yq4LB91IlPwP4L9onmchqyIoWdek
