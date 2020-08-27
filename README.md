@@ -317,7 +317,7 @@ export default Togglable
 ```
 
 # REACT Strucutre
-The structural units that make up the application's functional entities are React components. A React component defines the HTML for structuring the content, the JavaScript functions for determining functionality, and also the component's styling; all in one place. This is to create individual components that are as independent and reusable as possible.
+The structural units that make up the application's functional entities are React components. A React component defines the HTML for structuring the content, the JavaSwipt functions for determining functionality, and also the component's styling; all in one place. This is to create individual components that are as independent and reusable as possible.
 
 
 # deploy 

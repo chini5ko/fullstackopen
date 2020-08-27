@@ -3,6 +3,7 @@ import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import Togglable from './components/Togglable'
+import CreateForm from './components/CreateForm'
 import './style.css'
 
 
@@ -35,9 +36,7 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
+
 
   const [user, setUser] = useState(null)
 
@@ -86,16 +85,9 @@ const App = () => {
     }
   }
 
-  const handleCreate = async (event) => {
-    event.preventDefault()
+  const handleCreateBlog = async (newBlog) => {
 
-    const newBlog = {
-      'title': title,
-      'author': author,
-      'url': url,
-      'likes': 20
-    }
-
+    console.log('newBlog', newBlog.newBlog)
     try {
       let blog = await blogService.create(newBlog)
       console.log(blog)
@@ -104,10 +96,6 @@ const App = () => {
       // setTimeout(() => {
       //   setNotificationMessage(null)
       // }, 1000);
-
-      setTitle('')
-      setUrl('')
-      setAuthor('')
     } catch (exception) {
       alert('Create, Blog exception')
     }
@@ -146,39 +134,9 @@ const App = () => {
 
   const createForm = () => (
     <Togglable buttonLabel='new note'>
-      <form onSubmit={handleCreate}>
-        <div>
-          title
-          <input
-            type="text"
-            value={title}
-            name="Title"
-            onChange={({ target }) => setTitle(target.value)}
-          />
-        </div>
-
-        <div>
-          author
-          <input
-            type="text"
-            value={author}
-            name="Author"
-            onChange={({ target }) => setAuthor(target.value)}
-          />
-        </div>
-
-        <div>
-          url
-          <input
-            type="text"
-            value={url}
-            name="Url"
-            onChange={({ target }) => setUrl(target.value)}
-          />
-        </div>
-
-        <button type="submit">create</button>
-      </form>
+      <CreateForm
+        createBlog={handleCreateBlog}>
+      </CreateForm>
     </Togglable>
   )
 
