@@ -1,3 +1,51 @@
+# 5.7* Blog list frontend, step7
+Let's add each blog a button, which controls if all of the details about the blog are shown or not.
+
+```js
+import React, { useState } from 'react'
+const Blog = ({ blog }) => {
+  const [displayAll, setDisplayAll] = useState(false)
+
+  const blogStyle = {
+    paddingTop: 10,
+    paddingLeft: 2,
+    border: 'solid',
+    borderWidth: 1,
+    marginBottom: 5
+  }
+
+
+  const displayTitleAndAuthor = () => (
+    <div style={blogStyle}>
+      {blog.title} {blog.author} 
+      <button onClick={()=>setDisplayAll(true)}>View</button>
+    </div>
+  )
+
+  const displayBlog = () => (
+    <div style={blogStyle}>
+      {blog.title}
+      <button onClick={()=>setDisplayAll(false)}>Hide</button>
+      <br></br>
+      {blog.url}
+      <br></br>
+      {blog.likes}
+      <br></br>
+      {blog.author}
+    </div>
+  )
+
+  return (
+    <div>
+      {displayAll ?  displayBlog() : displayTitleAndAuthor()}
+    </div>
+  )
+}
+export default Blog
+```
+
+Full details of the blog open when the button is clicked.
+
 # 5.6 Blog list frontend, step6
 Separate the form for creating a new blog into its own component (if you have not already done so), and move all the states required for creating a new blog to this component.
 
