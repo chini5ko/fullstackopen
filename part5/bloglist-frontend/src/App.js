@@ -85,6 +85,11 @@ const App = () => {
     }
   }
 
+  const updateBlog = async () => {
+    const allBlogs = await blogService.getAll()
+    setBlogs(allBlogs)
+  }
+
   const handleCreateBlog = async (newBlog) => {
 
     console.log('newBlog', newBlog.newBlog)
@@ -143,12 +148,12 @@ const App = () => {
   const blogList = () => {
 
     let sortedBlogs = blogs.sort((a, b) => a.likes - b.likes)
-    
+
     return (
       <div>
         <h2>blogs</h2>
         {sortedBlogs.map(blog =>
-          <Blog key={blog.id} initBlog={blog} />
+          <Blog key={blog.id} initBlog={blog} updateBlog={updateBlog} />
         )}
       </div>
     )

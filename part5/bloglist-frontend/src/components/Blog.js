@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import blogService from '../services/blogs'
 
-const Blog = ({ initBlog }) => {
+const Blog = ({ initBlog, updateBlog }) => {
   const [displayAll, setDisplayAll] = useState(false)
   const [likes, setLike] = useState(initBlog.likes)
   const [blog, setBlog] = useState(initBlog)
@@ -35,6 +35,13 @@ const Blog = ({ initBlog }) => {
     setBlog(putBlog)
   }
 
+  const handleDelete = async () => {
+    if (window.confirm("Do you really want to leave?")) {      
+       await blogService.deleteBlog(blog.id)
+       updateBlog()
+    }
+  }
+
   const displayBlog = () => (
     <div style={blogStyle}>
       {blog.title}
@@ -46,6 +53,8 @@ const Blog = ({ initBlog }) => {
       <button onClick={handleLike}>like</button>
       <br></br>
       {blog.author}
+      <br></br>
+      <button onClick={handleDelete}>delete</button>
     </div>
   )
 

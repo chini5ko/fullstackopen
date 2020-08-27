@@ -1,6 +1,29 @@
 
-5.10*: Blog list frontend, step10
+# 5.10*: Blog list frontend, step10
 Add a new button for deleting blog posts. Also implement the logic for deleting blog posts in the backend.
+
+```js
+// App.js
+  <Blog key={blog.id} initBlog={blog} updateBlog={updateBlog} />
+
+//Blog.js
+  const handleDelete = async () => {
+    if (window.confirm("Do you really want to leave?")) {      
+       await blogService.deleteBlog(blog.id)
+       updateBlog()
+    }
+  }
+
+// blogs.js
+const deleteBlog = async (id) => {
+  const config = {
+    headers: { Authorization: token}
+  }
+  const blog = await axios.delete(`${baseUrl}/${id}`, config)
+  return blog.data
+}
+
+```
 
 # 5.9*: Blog list frontend, step9
 Modify the application to list the blog posts by the number of likes. Sorting the blog posts can be done with the array sort method.
