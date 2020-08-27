@@ -1,3 +1,25 @@
+
+5.10*: Blog list frontend, step10
+Add a new button for deleting blog posts. Also implement the logic for deleting blog posts in the backend.
+
+# 5.9*: Blog list frontend, step9
+Modify the application to list the blog posts by the number of likes. Sorting the blog posts can be done with the array sort method.
+```js
+  const blogList = () => {
+
+    let sortedBlogs = blogs.sort((a, b) => a.likes - b.likes)
+    
+    return (
+      <div>
+        <h2>blogs</h2>
+        {sortedBlogs.map(blog =>
+          <Blog key={blog.id} initBlog={blog} />
+        )}
+      </div>
+    )
+  }
+```
+
 # 5.8*: Blog list frontend, step8
 Implement the functionality for the like button. Likes are increased by making an HTTP PUT request to the unique address of the blog post in the backend.
 

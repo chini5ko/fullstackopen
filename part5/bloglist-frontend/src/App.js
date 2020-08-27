@@ -140,14 +140,19 @@ const App = () => {
     </Togglable>
   )
 
-  const blogList = () => (
-    <div>
-      <h2>blogs</h2>
-      {blogs.map(blog =>
-        <Blog key={blog.id} initBlog={blog} />
-      )}
-    </div>
-  )
+  const blogList = () => {
+
+    let sortedBlogs = blogs.sort((a, b) => a.likes - b.likes)
+    
+    return (
+      <div>
+        <h2>blogs</h2>
+        {sortedBlogs.map(blog =>
+          <Blog key={blog.id} initBlog={blog} />
+        )}
+      </div>
+    )
+  }
 
   return (
     <div>
