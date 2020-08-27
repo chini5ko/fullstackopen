@@ -1,3 +1,22 @@
+# 5.8*: Blog list frontend, step8
+Implement the functionality for the like button. Likes are increased by making an HTTP PUT request to the unique address of the blog post in the backend.
+
+```js
+
+  const handleLike = async () => {
+    const putBlog = await blogService.update(blog.id, {
+      'user': blog.user.id,
+      'title': blog.title,
+      'author': blog.author,
+      'url': blog.url,
+      'likes': blog.likes + 1
+    })
+
+    setLike(putBlog.likes)
+    setBlog(putBlog)
+  }
+```
+
 # 5.7* Blog list frontend, step7
 Let's add each blog a button, which controls if all of the details about the blog are shown or not.
 
