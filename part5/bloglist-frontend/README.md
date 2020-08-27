@@ -1,3 +1,46 @@
+# 5.5 Blog list frontend, step5
+Change the form for creating blog posts so that it is only displayed when appropriate. Use functionality similar to what was shown earlier in this part of the course material. If you wish to do so, you can use the Togglable component defined in part 5.
+
+```js
+const createForm = () => (
+    <Togglable buttonLabel='new note'>
+      <form onSubmit={handleCreate}>
+        <div>
+          title
+          <input
+            type="text"
+            value={title}
+            name="Title"
+            onChange={({ target }) => setTitle(target.value)}
+          />
+        </div>
+
+        <div>
+          author
+          <input
+            type="text"
+            value={author}
+            name="Author"
+            onChange={({ target }) => setAuthor(target.value)}
+          />
+        </div>
+
+        <div>
+          url
+          <input
+            type="text"
+            value={url}
+            name="Url"
+            onChange={({ target }) => setUrl(target.value)}
+          />
+        </div>
+
+        <button type="submit">create</button>
+      </form>
+    </Togglable>
+  )
+  ```
+
 # 5.4: bloglist frontend, step4
 Implement notifications which inform the user about successful and unsuccessful operations at the top of the page. 
 

@@ -267,6 +267,55 @@ const App = () => {
 }
 ```
 
+# REACT
+
+### *Togglable* props.children 
+- is available on every component. It contains the content between the opening and closing tags of a component
+```js
+//props.children
+<Welcome>Hello world!</Welcome>
+
+function Welcome(props) {
+  return <p>{props.children}</p>;
+}
+
+```
+
+```js
+import React, { useState, useImperativeHandle } from 'react'
+
+const Togglable = React.forwardRef((props, ref) => {
+  const [visible, setVisible] = useState(false)
+
+  const hideWhenVisible = { display: visible ? 'none' : '' }
+  const showWhenVisible = { display: visible ? '' : 'none' }
+
+  const toggleVisibility = () => {
+    setVisible(!visible)
+  }
+  
+  useImperativeHandle(ref, () => {
+    return {
+      toggleVisibility
+    }
+  })
+
+  return (
+    <div>
+      <div style={hideWhenVisible}>
+        <button onClick={toggleVisibility}>{props.buttonLabel}</button>
+      </div>
+      <div style={showWhenVisible}>
+        {props.children}
+        <button onClick={toggleVisibility}>cancel</button>
+      </div>
+    </div>
+  )
+})
+
+export default Togglable
+```
+
 # REACT Strucutre
 The structural units that make up the application's functional entities are React components. A React component defines the HTML for structuring the content, the JavaScript functions for determining functionality, and also the component's styling; all in one place. This is to create individual components that are as independent and reusable as possible.
 
