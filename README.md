@@ -351,6 +351,15 @@ npm install eslint --save-dev
 node_modules/.bin/eslint --init
 ```
 
+## for windows 
+- Inside VS Code use: Ctrl+Shift+P or Shift+Cmd+P.
+- Type: Preferences: Open Settings (JSON)
+- Select the option.
+- Update eslint-related code inside the opened JSON file.
+```js
+    "eslint.workingDirectories": [{ "mode": "auto" }]
+```
+
 # JEST
 
 ### Shell

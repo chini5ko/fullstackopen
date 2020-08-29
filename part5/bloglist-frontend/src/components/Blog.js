@@ -17,8 +17,8 @@ const Blog = ({ initBlog, updateBlog }) => {
 
   const displayTitleAndAuthor = () => (
     <div style={blogStyle}>
-      {blog.title} {blog.author} 
-      <button onClick={()=>setDisplayAll(true)}>View</button>
+      {blog.title} {blog.author}
+      <button onClick={() => setDisplayAll(true)}>View</button>
     </div>
   )
 
@@ -36,16 +36,16 @@ const Blog = ({ initBlog, updateBlog }) => {
   }
 
   const handleDelete = async () => {
-    if (window.confirm("Do you really want to leave?")) {      
-       await blogService.deleteBlog(blog.id)
-       updateBlog()
+    if (window.confirm( 'Do you really want to leave?' )) {
+      await blogService.deleteBlog(blog.id)
+      updateBlog()
     }
   }
 
   const displayBlog = () => (
     <div style={blogStyle}>
       {blog.title}
-      <button onClick={()=>setDisplayAll(false)}>Hide</button>
+      <button onClick={() => setDisplayAll(false)}>Hide</button>
       <br></br>
       {blog.url}
       <br></br>

@@ -78,10 +78,10 @@ const App = () => {
       setPassword('')
     } catch (exception) {
       setNotificationMessage('Wrong credentials')
-      setNotificationType('error');
+      setNotificationType('error')
       setTimeout(() => {
         setNotificationMessage(null)
-      }, 1000);
+      }, 1000)
     }
   }
 
@@ -97,7 +97,7 @@ const App = () => {
       let blog = await blogService.create(newBlog)
       console.log(blog)
       setNotificationMessage(`a new blog ${blog.title} by ${blog.author}`)
-      setNotificationType('success');
+      setNotificationType('success')
       // setTimeout(() => {
       //   setNotificationMessage(null)
       // }, 1000);
@@ -117,7 +117,7 @@ const App = () => {
     <form onSubmit={handleLogin}>
       <div>
         username
-          <input
+        <input
           type="text"
           value={username}
           name="Username"
@@ -126,7 +126,7 @@ const App = () => {
       </div>
       <div>
         password
-          <input
+        <input
           type="password"
           value={password}
           name="Password"

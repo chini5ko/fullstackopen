@@ -9,9 +9,8 @@
 - npm install bcrypt --save
 - npm install jsonwebtoken --save
 
-
-
-
+// REACT
+- npm install --save prop-types
 
 
 # Dev
