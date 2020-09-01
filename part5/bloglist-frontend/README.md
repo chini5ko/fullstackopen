@@ -1,4 +1,34 @@
 
+# 5.14: Blog list tests, step2
+Make a test which checks that blog's url and number of likes are shown when the button controlling the shown details has been clicked.
+
+# 5.13: Blog list tests, step1
+Make a test which checks that the component displaying a blog renders the blog's title and author, but does not render its url or number of likes by default
+
+```js
+import React from 'react'
+import { render } from '@testing-library/react'
+import { prettyDOM } from '@testing-library/dom'
+import Blog from './Blog'
+
+test('renders content', () => {
+  const blog = {
+    title: 'A title',
+    author: 'Hector'
+  }
+
+  const mockHandler = jest.fn()
+  const component = render(
+    <Blog initBlog={blog} updateBlog={mockHandler} />
+  )
+
+  const div = component.container.querySelector('.blog')
+  expect(div).toBeDefined()
+  console.log(prettyDOM(div))
+
+})
+```
+
 # 5.12: Blog list frontend, step12
 Add ESlint to the project. Define the configuration according to your liking. Fix all of the linter errors.
 
