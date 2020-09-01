@@ -269,6 +269,7 @@ const App = () => {
 
 # REACT
 
+
 ### *Togglable* props.children 
 - is available on every component. It contains the content between the opening and closing tags of a component
 ```js
@@ -318,6 +319,16 @@ export default Togglable
 
 # REACT Strucutre
 The structural units that make up the application's functional entities are React components. A React component defines the HTML for structuring the content, the JavaSwipt functions for determining functionality, and also the component's styling; all in one place. This is to create individual components that are as independent and reusable as possible.
+
+# REACT Testing
+https://testing-library.com/
+## JEST REACT
+- npm install --save-dev @testing-library/react @testing-library/jest-dom
+- https://fullstackopen.com/en/part5/testing_react_apps
+- The beforeEach function gets called before each test, which then renders the Togglable component into the component variable
+
+### // TEST
+- CI=true npm test -- --coverage
 
 
 # deploy 
