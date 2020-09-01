@@ -50,7 +50,9 @@ const Blog = ({ initBlog, updateBlog }) => {
       {blog.url}
       <br></br>
       {likes}
-      <button onClick={handleLike}>like</button>
+      <button id='like_but' onClick={handleLike}>like</button>
+      {/* <button id='like_but'>like</button> */}
+
       <br></br>
       {blog.author}
       <br></br>
