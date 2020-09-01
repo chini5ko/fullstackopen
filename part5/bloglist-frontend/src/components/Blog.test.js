@@ -1,6 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import { prettyDOM } from '@testing-library/dom'
+// import { prettyDOM } from '@testing-library/dom'
 import Blog from './Blog'
 
 test('renders content', () => {
@@ -16,6 +16,6 @@ test('renders content', () => {
 
   const div = component.container.querySelector('.blog')
   expect(div).toBeDefined()
-  console.log(prettyDOM(div))
+  // console.log(prettyDOM(div))
 
 })

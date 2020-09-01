@@ -1,6 +1,68 @@
+# 5.16*: Blog list tests, step4
+Make a test for the new blog form. The test should check, that the form calls the event handler it received as props with the right details when a new blog is called.
+
+```js
+import React from 'react'
+import { render, fireEvent } from '@testing-library/react'
+import '@testing-library/jest-dom/extend-expect'
+import CreateForm from './CreateForm'
+
+test('<CreateForm /> updates parent state and calls onSubmit', () => {
+  const createBlog = jest.fn()
+
+  const component = render(
+    <CreateForm createBlog={createBlog} />)
+
+  const author = component.container.querySelector('#author')
+  const form = component.container.querySelector('form')
+
+
+  fireEvent.change(author, {
+    target: { value: 'testing of forms could be easier' }
+  })
+  fireEvent.submit(form)
+  expect(createBlog.mock.calls).toHaveLength(1)
+})
+```
+
+# 5.15: Blog list tests, step3
+Make a test which ensures that if the like button is clicked twice, the event handler the component received as props is called twice.
+
+- Note: I can't write a test for this since my Blog component does not receive a event handler for the like button. The event handler is in the component itself. 
 
 # 5.14: Blog list tests, step2
 Make a test which checks that blog's url and number of likes are shown when the button controlling the shown details has been clicked.
+
+```js
+import React from 'react'
+import { render, fireEvent } from '@testing-library/react'
+import { prettyDOM } from '@testing-library/dom'
+import Blog from './Blog'
+
+test('renders content', () => {
+  const blog = {
+    title: 'A title',
+    author: 'Hector',
+    url: 'www.chinisko.com',
+    likes: 20
+  }
+
+  const mockHandler = jest.fn()
+  const component = render(
+    <Blog initBlog={blog} updateBlog={mockHandler} />
+  )
+
+  // const button = component.container.querySelector('.view_button')
+  const button = component.getByText('View')
+  expect(button).toBeDefined()
+
+  fireEvent.click(button)
+
+  const div = component.container.querySelector('.blog')
+  expect(div).toHaveTextContent('www.chinisko.com')
+  // console.log(prettyDOM(div))
+})
+```
 
 # 5.13: Blog list tests, step1
 Make a test which checks that the component displaying a blog renders the blog's title and author, but does not render its url or number of likes by default

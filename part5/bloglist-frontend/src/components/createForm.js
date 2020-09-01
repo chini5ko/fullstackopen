@@ -46,6 +46,7 @@ const CreateForm = ({ createBlog }) => {
       <div>
         author
         <input
+          id='author'
           type="text"
           value={author}
           name="Author"

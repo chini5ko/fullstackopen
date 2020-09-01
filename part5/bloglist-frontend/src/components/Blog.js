@@ -16,9 +16,9 @@ const Blog = ({ initBlog, updateBlog }) => {
 
 
   const displayTitleAndAuthor = () => (
-    <div className='blog' style={blogStyle}>
+    <div  className='blog' style={blogStyle}>
       {blog.title} {blog.author}
-      <button onClick={() => setDisplayAll(true)}>View</button>
+      <button className='view_button' onClick={() => setDisplayAll(true)}>View</button>
     </div>
   )
 
@@ -43,9 +43,9 @@ const Blog = ({ initBlog, updateBlog }) => {
   }
 
   const displayBlog = () => (
-    <div style={blogStyle}>
+    <div  className='blog' style={blogStyle}>
       {blog.title}
-      <button onClick={() => setDisplayAll(false)}>Hide</button>
+      <button  onClick={() => setDisplayAll(false)}>Hide</button>
       <br></br>
       {blog.url}
       <br></br>
