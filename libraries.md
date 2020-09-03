@@ -21,6 +21,7 @@
 - npm install --save-dev supertest
 - npm install --save mongoose-unique-validator
 - npm install --save-dev @testing-library/react @testing-library/jest-dom
+- npm install --save-dev @testing-library/react @testing-library/jest-dom
 
 
 
@@ -66,6 +67,36 @@
 ### // TEST
 - CI=true npm test -- --coverage
 
+# End to End (E2E) tests.
+[Cyper](https://www.cypress.io/)
+- npm install --save-dev cypress
+
+##### When both backend and frontend are running, we can start Cypress with the command
+
+```js
+npm run cypress:open
+```
+
+```js
+{
+  // FRONT-END
+  // ...
+  "scripts": {
+    "start": "react-scripts start",
+    "server": "json-server -p3001 db.json",
+    "cypress:open": "cypress open"
+  },
+  // ...
+
+  // BACK-END
+ {
+  // ...
+  "scripts": {
+    "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
+    "start:test": "cross-env NODE_ENV=test node index.js"
+  },
+  // ...
+}
 
 
 ```js

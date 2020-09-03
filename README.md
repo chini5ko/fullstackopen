@@ -330,6 +330,51 @@ https://testing-library.com/
 ### // TEST
 - CI=true npm test -- --coverage
 
+# End to End (E2E) tests.
+[Cyper](https://www.cypress.io/)
+- npm install --save-dev cypress
+
+##### When both backend and frontend are running, we can start Cypress with the command
+
+```js
+npm run cypress:open
+```
+
+
+```js
+{
+  // FRONT-END
+  // ...
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "server": "json-server -p3001 db.json",
+    "cypress:open": "cypress open"
+  },
+  // ...
+
+  // BACK-END
+ {
+  // ...
+  "scripts": {
+    "start": "cross-env NODE_ENV=production node index.js",
+    "dev": "cross-env NODE_ENV=development nodemon index.js",
+    "build:ui": "rm -rf build && cd ../../../2/luento/notes && npm run build && cp -r build ../../../3/luento/notes-backend",
+    "deploy": "git push heroku master",
+    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push && npm run deploy",
+    "logs:prod": "heroku logs --tail",
+    "lint": "eslint .",
+    "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
+    "start:test": "cross-env NODE_ENV=test node index.js"
+  },
+  // ...
+}
+
+}
+```
+
 
 # deploy 
 
