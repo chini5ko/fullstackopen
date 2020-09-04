@@ -98,6 +98,12 @@ const App = () => {
       console.log(blog)
       setNotificationMessage(`a new blog ${blog.title} by ${blog.author}`)
       setNotificationType('success')
+
+      //update 
+     let updatedBlogs = await blogService.getAll()
+     setBlogs(updatedBlogs)
+  
+
       // setTimeout(() => {
       //   setNotificationMessage(null)
       // }, 1000);
