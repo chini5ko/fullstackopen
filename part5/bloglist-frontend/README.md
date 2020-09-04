@@ -1,3 +1,117 @@
+# 5.19: bloglist end to end testing, step3
+Make a test which checks that a logged in user can create a new blog. The structure of the test could be as follows
+
+```js
+
+// helper in commands.js
+Cypress.Commands.add('login', ({ username, password }) => {
+  cy.request('POST', 'http://localhost:3001/api/login', {
+    username, password
+  }).then(({ body }) => {
+    localStorage.setItem('loggedBlogappUser', JSON.stringify(body))
+    cy.visit('http://localhost:3000')
+  })
+})
+
+//test
+	describe.only('When logged in', function() {
+    beforeEach(function() {
+			// log in user here
+			cy.login({ username: 'Zoro', password: 'sword' })
+			cy.contains('Zoro logged-in')
+    })
+
+    it('A blog can be created', function() {
+			cy.contains('new note').click()
+			cy.get('#title').type('some title')
+      cy.get('#author').type('nisko')
+			cy.get('#url').type('www.chinisko.com')
+			cy.get('#create-button').click()
+			cy.contains('by')
+    })
+  })
+
+  ```
+# 5.18: bloglist end to end testing, step2
+
+Make tests for logging in. Test both successful and unsuccessful log in attempts.
+```js
+describe('Blog app', function() {
+  beforeEach(function() {
+    cy.request('POST', 'http://localhost:3001/api/testing/reset')
+		cy.visit('http://localhost:3000')
+
+		const user = {
+      name: 'Zoro',
+      username: 'Zoro',
+      password: 'sword'
+    }
+    cy.request('POST', 'http://localhost:3001/api/users/', user)
+
+	})
+	
+
+	it('Login form is shown', function() {
+		// ...
+		cy.contains('login')
+
+  })
+
+  describe('Login',function() {
+    it('succeeds with correct credentials', function() {
+			// ...
+			cy.get('#username').type('Zoro')
+			cy.get('#password').type('sword')
+			cy.get('#login-button').click()
+			cy.contains('Zoro logged-in')
+    })
+
+    it('fails with wrong credentials', function() {
+			// ...
+			cy.get('#username').type('Zoro')
+			cy.get('#password').type('word')
+			cy.get('#login-button').click()
+			cy.get('.error').contains('Wrong credentials')
+    })
+	})
+	
+})
+```
+
+Make a new user in the beforeEach block for the tests.
+# 5.17: bloglist end to end testing, step1
+Configure Cypress to your project. Make a test for checking that the application displays the login form by default.
+
+```js
+describe('Blog app', function() {
+  beforeEach(function() {
+    cy.request('POST', 'http://localhost:3001/api/testing/reset')
+    cy.visit('http://localhost:3000')
+    
+    const user = {
+      name: 'Zoro',
+      username: 'Zoro',
+      password: 'sword'
+    }
+    cy.request('POST', 'http://localhost:3001/api/users/', user)
+
+  })
+
+  it('Login form is shown', function() {
+		// ...
+		cy.request('POST', 'http://localhost:3001/api/testing/reset')
+    const user = {
+      name: 'Zoro',
+      username: 'Zoro',
+      password: 'sword'
+    }
+    cy.request('POST', 'http://localhost:3001/api/users/', user)
+		
+  })
+})
+```
+
+The beforeEach formatting blog must empty the database
 # 5.16*: Blog list tests, step4
 Make a test for the new blog form. The test should check, that the form calls the event handler it received as props with the right details when a new blog is called.
 

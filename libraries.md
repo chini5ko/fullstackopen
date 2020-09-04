@@ -22,6 +22,8 @@
 - npm install --save mongoose-unique-validator
 - npm install --save-dev @testing-library/react @testing-library/jest-dom
 - npm install --save-dev @testing-library/react @testing-library/jest-dom
+- npm install eslint-plugin-cypress --save-dev
+
 
 
 
@@ -67,36 +69,6 @@
 ### // TEST
 - CI=true npm test -- --coverage
 
-# End to End (E2E) tests.
-[Cyper](https://www.cypress.io/)
-- npm install --save-dev cypress
-
-##### When both backend and frontend are running, we can start Cypress with the command
-
-```js
-npm run cypress:open
-```
-
-```js
-{
-  // FRONT-END
-  // ...
-  "scripts": {
-    "start": "react-scripts start",
-    "server": "json-server -p3001 db.json",
-    "cypress:open": "cypress open"
-  },
-  // ...
-
-  // BACK-END
- {
-  // ...
-  "scripts": {
-    "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
-    "start:test": "cross-env NODE_ENV=test node index.js"
-  },
-  // ...
-}
 
 
 ```js
@@ -149,6 +121,65 @@ test('clicking the button calls event handler once', async () => {
 
 ```js
 const button = component.container.querySelector('button')
+```
+
+
+# End to End (E2E) tests.
+[Cyper](https://www.cypress.io/)
+- npm install --save-dev cypress
+- npm install eslint-plugin-cypress --save-dev
+
+
+
+##### When both backend and frontend are running, we can start Cypress with the command
+
+```js
+npm run cypress:open
+```
+
+```js
+{
+  // FRONT-END
+  // ...
+  "scripts": {
+    "start": "react-scripts start",
+    "server": "json-server -p3001 db.json",
+    "cypress:open": "cypress open",
+      "test:e2e": "cypress run"
+  },
+  // ...
+
+  // BACK-END
+ {
+  // ...
+  "scripts": {
+    "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
+    "start:test": "cross-env NODE_ENV=test node index.js"
+  },
+  // ...
+}
+
+/// ESLINT
+module.exports = {
+    "env": {
+        "browser": true,
+        "es6": true,
+        "jest/globals": true,
+        "cypress/globals": true
+    },
+    "extends": [ 
+      // ...
+    ],
+    "parserOptions": {
+      // ...
+    },
+    "plugins": [
+        "react", "jest", "cypress"
+    ],
+    "rules": {
+      // ...
+    }
+}
 ```
 
 
