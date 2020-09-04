@@ -42,16 +42,27 @@ describe('Blog app', function() {
 			// log in user here
 			cy.login({ username: 'Zoro', password: 'sword' })
 			cy.contains('Zoro logged-in')
-    })
-
-    it('A blog can be created', function() {
+		})
+		
+		it('A blog can be created -> like -> delete the blog,', function() {
 			cy.contains('new note').click()
 			cy.get('#title').type('some title')
       cy.get('#author').type('nisko')
 			cy.get('#url').type('www.chinisko.com')
 			cy.get('#create-button').click()
-			cy.contains('by')
-    })
+			cy.contains('View').click()
+			cy.contains('like').click()
+      cy.contains('21')
+      cy.contains('delete').click()
+		})
+
+    it('order by like', function() {
+
+			cy.createBlog('title1','author1', 'www.url.com', 2)
+			cy.createBlog('first','author1', 'www.url.com', 1)
+			cy.createBlog('title2','author1', 'www.url.com', 7)
+
+		})
   })
 
 })

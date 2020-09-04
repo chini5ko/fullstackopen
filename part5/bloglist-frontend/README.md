@@ -1,3 +1,57 @@
+
+# 5.22: bloglist end to end testing, step6
+Make a test which checks that the blogs are ordered according to likes with the blog with the most likes being first.
+
+```js
+
+//command.js 
+Cypress.Commands.add('createBlog', ( title, author, url, likes ) => {
+  cy.request({
+    url: 'http://localhost:3001/api/blogs',
+    method: 'POST',
+    body: { 
+      "title":title,
+      "author":author,
+       "url": url,
+       "likes":likes
+     },
+    headers: {
+      'Authorization': `bearer ${JSON.parse(localStorage.getItem('loggedBlogappUser')).token}`
+    }
+  })
+  cy.visit('http://localhost:3000')
+})
+
+// test
+    it('order by like', function() {
+
+			cy.createBlog('title1','author1', 'www.url.com', 2)
+			cy.createBlog('first','author1', 'www.url.com', 1)
+			cy.createBlog('title2','author1', 'www.url.com', 7)
+
+		})
+
+```
+
+# 5.20: bloglist end to end testing, step4, # 5.21: bloglist end to end testing, step5
+
+Make a test which checks that user can like a blog.
+Make a test for ensuring that the user who created a blog can delete it.
+
+```js
+    it('A blog can be created -> like -> delete the blog,', function() {
+			cy.contains('new note').click()
+			cy.get('#title').type('some title')
+      cy.get('#author').type('nisko')
+			cy.get('#url').type('www.chinisko.com')
+			cy.get('#create-button').click()
+			cy.contains('View').click()
+			cy.contains('like').click()
+      cy.contains('21')
+      cy.contains('delete').click()
+		})
+```
+
 # 5.19: bloglist end to end testing, step3
 Make a test which checks that a logged in user can create a new blog. The structure of the test could be as follows
 
@@ -14,7 +68,7 @@ Cypress.Commands.add('login', ({ username, password }) => {
 })
 
 //test
-	describe.only('When logged in', function() {
+	describe('When logged in', function() {
     beforeEach(function() {
 			// log in user here
 			cy.login({ username: 'Zoro', password: 'sword' })
