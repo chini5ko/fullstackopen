@@ -1,3 +1,143 @@
+# 6.7: anecdotes, step5
+Separate the creation of new anecdotes into its own component called AnecdoteForm. Move all logic for creating a new anecdote into this new component.
+
+```js
+import React from 'react'
+import {useDispatch} from 'react-redux'
+import {createAnecdote} from '../reducers/anecdoteReducer'
+
+
+const AnecdoteForm = (props) => {
+  const dispatch = useDispatch()
+
+  const addAnecdote = (event) => {
+    event.preventDefault()
+		const content = event.target.anecdote.value
+		dispatch(createAnecdote(content))
+		event.target.anecdote.value = ''
+  }
+
+  return (
+		<div>
+		<h2>Create</h2>
+		 <form onSubmit={addAnecdote}>
+      <input name="anecdote" />
+      <button type="submit">add</button>
+    </form>
+
+		</div>
+   
+  )
+}
+
+export default AnecdoteForm
+```
+
+# 6.6: anecdotes, step4
+If you haven't done so already, separate the creation of action-objects to action creator-functions and place them in the src/reducers/anecdoteReducer.js file, so do like we have been doing since the chapter action creators.
+```js
+
+export const voteFor = (id) => {
+  return {
+    type: 'VOTE',
+    data: {
+      id:id
+    }
+  }
+}
+
+
+export const createAnecdote = (content) => {
+  return {
+    type: 'NEW_ANECDOTE',
+    data: {
+      content:content,
+      id: getId(),
+      votes:0
+    }
+  }
+}
+```
+
+# 6.5*: anecdotes, step3
+Make sure that the anecdotes are ordered by the number of votes.
+```js
+	anecdotes.sort(function(a, b) {
+    return b.votes - a.votes;
+	});
+
+```
+
+
+# 6.4: anecdotes, step2
+Implement the functionality for adding new anecdotes.
+
+```js
+// REDUCER
+const reducer = (state = initialState, action) => {
+  switch(action.type){
+    case 'VOTE':{
+    //..
+    }
+    case 'NEW_ANECDOTE':{
+      return [...state,action.data]
+    }
+  }
+
+  return state
+}
+
+
+export const createAnecdote = (content) => {
+  return {
+    type: 'NEW_ANECDOTE',
+    data: {
+      content:content,
+      id: getId(),
+      votes:0
+    }
+  }
+}
+```
+
+# 6.3: anecdotes, step1
+Implement the functionality for voting anecdotes. The amount of votes must be saved to a Redux-store.
+
+```js
+// APP.js
+  <button onClick={() =>  dispatch(voteFor(anecdote.id))}>vote</button>
+
+export const voteFor = (id) => {
+  return {
+    type: 'VOTE',
+    data: {
+      id:id
+    }
+  }
+}
+
+//reducer:
+const reducer = (state = initialState, action) => {
+  switch(action.type){
+    case 'VOTE':{
+      const id = action.data.id
+      const anecdoteToChange = state.find(n => n.id === id)
+      const changedAnecdote = {
+        ...anecdoteToChange,
+        votes: anecdoteToChange.votes + 1
+      }
+      return state.map(anecdote => 
+        anecdote.id != id ? anecdote : changedAnecdote
+      )
+    }
+  }
+
+  return state
+}
+
+
+```
+
 # 6.2: unicafe revisited, step2
 Now implement the actual functionality of the application.
 ```js

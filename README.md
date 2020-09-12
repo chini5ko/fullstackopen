@@ -815,3 +815,84 @@ renderApp()
 store.subscribe(renderApp)
 //When the state in the store is changed, React is not able to automatically rerender the application. Thus we have registered a function renderApp, which renders the whole app, to listen for changes in the store with the store.subscribe method. Note that we have to immediately call the renderApp method. Without the call the first rendering of the app would never happen.
 ```
+
+### Action Creators 
+- Functions that create actions are called action creators.
+
+
+```js
+const createNote = (content) => {
+  return {
+    type: 'NEW_NOTE',
+    data: {
+      content,
+      important: false,
+      id: generateId()
+    }
+  }
+}
+
+const toggleImportanceOf = (id) => {
+  return {
+    type: 'TOGGLE_IMPORTANCE',
+    data: { id }
+  }
+}
+
+// The App component does not have to know anything about the inner representation of the actions anymore, it just gets the right action by calling the creator-function:
+  const toggleImportance = (id) => {
+    store.dispatch(toggleImportanceOf(id))
+  }
+
+
+```
+
+### Provider
+
+- The application's store is given to the Provider as its attribute store.
+
+```js
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
+import App from './App'
+import noteReducer from './reducers/noteReducer'
+
+const store = createStore(noteReducer)
+
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('root')
+)
+```
+
+### useDispatch & useSelector
+- Now it does it with the dispatch-function from the useDispatch -hook.
+- The useDispatch-hook provides any React component access to the dispatch-function of the redux-store defined in index.js. This allows all components to make changes to the state of the redux-store.
+- The component can access the notes stored in the store with the useSelector-hook of the react-redux library.
+- useSelector receives a function as a parameter. The function either searches for or selects data from the redux-store. 
+```js
+import { useSelector, useDispatch } from 'react-redux'
+
+const App = () => {
+  const dispatch = useDispatch()
+  // ...
+
+  //Here we need all of the notes, so our selector function returns the whole state:
+    const notes = useSelector(state => state)
+    const importantNotes = useSelector(state => state.filter(note => note.important))  
+
+
+
+  const toggleImportance = (id) => {
+    dispatch(toggleImportanceOf(id))
+  }
+
+  // ...
+}
+```
+
+

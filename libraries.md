@@ -7,8 +7,9 @@
 - npm install cross-env // cross-platform compatibility
 - npm install express-async-errors --save
 - npm install bcrypt --save
-- npm install redux --save
 - npm install jsonwebtoken --save
+- npm install redux --save
+- npm install --save react-redux
 
 // REACT
 - npm install --save prop-types
