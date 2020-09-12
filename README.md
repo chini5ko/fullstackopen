@@ -639,3 +639,179 @@ window.localStorage.clear()
 
 
 ```
+
+# REDUX
+- The whole state of the application is stored into one JavaScript-object in the store
+-  Redux reducer that reducers must be pure functions. (use concat method)
+
+```js
+// deep-freeze ( reducer has been correctly defined as an immutable function)
+npm install --save-dev deep-freeze
+```
+
+
+
+### Action
+
+- The state of the store is changed with actions.
+ - Actions are objects, which have at least a field determining the type of the action. Our application needs for example the following action
+
+```js
+{
+  type: 'INCREMENT'
+}
+```
+### Reducer 
+- n practice, a reducer is a function which is given the current state and an action as parameters. It returns a new state.
+
+```js
+//example 
+const counterReducer = (state = 0, action) => {
+  switch (action.type) {
+    case 'INCREMENT':
+      return state + 1
+    case 'DECREMENT':
+      return state - 1
+    case 'ZERO':
+      return 0
+    default: // if none of the above matches, code comes here
+    return state
+  }
+}
+```
+
+### createStore
+- Reducer is never supposed to be called directly from the applications code. Reducer is only given as a parameter to the createStore-function which creates the store:
+
+```js
+import { createStore } from 'redux'
+
+const counterReducer = (state = 0, action) => {
+  // ...
+}
+
+const store = createStore(counterReducer)
+```
+
+### dispatch 
+- The store now uses the reducer to handle actions, which are dispatched or 'sent' to the store with its dispatch-method.
+
+```js
+store.dispatch({type: 'INCREMENT'})
+
+// v2
+store.dispatch({
+  type: 'NEW_NOTE',
+  data: {
+    content: 'state changes are made with actions',
+    important: false,
+    id: 2
+  }
+})
+
+```
+
+#### Example:
+```js
+const store = createStore(counterReducer)
+console.log(store.getState())
+store.dispatch({type: 'INCREMENT'})
+store.dispatch({type: 'INCREMENT'})
+store.dispatch({type: 'INCREMENT'})
+console.log(store.getState())
+store.dispatch({type: 'ZERO'})
+store.dispatch({type: 'DECREMENT'})
+console.log(store.getState())
+
+/** 
+0
+3
+-1
+**/
+```
+
+### subscribe
+- The third important method the store has is subscribe, which is used to create callback functions the store calls when its state is changed.
+```js
+store.subscribe(() => {
+  const storeNow = store.getState()
+  console.log(storeNow)
+})
+
+//--------------------------------
+const store = createStore(counterReducer)
+
+store.subscribe(() => {
+  const storeNow = store.getState()
+  console.log(storeNow)
+})
+
+store.dispatch({ type: 'INCREMENT' })
+store.dispatch({ type: 'INCREMENT' })
+store.dispatch({ type: 'INCREMENT' })
+store.dispatch({ type: 'ZERO' })
+store.dispatch({ type: 'DECREMENT' })
+
+/**
+ 1
+2
+3
+0
+-1
+**/
+```
+
+# REDUX Example :
+```js
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { createStore } from 'redux'
+
+const counterReducer = (state = 0, action) => {
+  switch (action.type) {
+    case 'INCREMENT':
+      return state + 1
+    case 'DECREMENT':
+      return state - 1
+    case 'ZERO':
+      return 0
+    default:
+      return state
+  }
+}
+
+const store = createStore(counterReducer)
+
+const App = () => {
+  return (
+    <div>
+      <div>
+        {store.getState()}
+      </div>
+      <button 
+        onClick={e => store.dispatch({ type: 'INCREMENT' })}
+      >
+        plus
+      </button>
+      <button
+        onClick={e => store.dispatch({ type: 'DECREMENT' })}
+      >
+        minus
+      </button>
+      <button 
+        onClick={e => store.dispatch({ type: 'ZERO' })}
+      >
+        zero
+      </button>
+    </div>
+  )
+}
+
+const renderApp = () => {
+  ReactDOM.render(<App />, document.getElementById('root'))
+}
+
+renderApp()
+store.subscribe(renderApp)
+//When the state in the store is changed, React is not able to automatically rerender the application. Thus we have registered a function renderApp, which renders the whole app, to listen for changes in the store with the store.subscribe method. Note that we have to immediately call the renderApp method. Without the call the first rendering of the app would never happen.
+```
